@@ -14,14 +14,26 @@ const baseConfig = {
                 use: ['style-loader', 'css-loader'],
             },
             { test: /\.ts$/i, use: 'ts-loader' },
+            {
+                test: /\.(png|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.svg$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: path.join('icons', '[name].[contenthash][ext]'),
+                },
+            },
         ],
     },
     resolve: {
-        extensions: ['.ts','.js'],
+        extensions: ['.ts', '.js'],
     },
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, '../dist'),
+        assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
     },
     plugins: [
         new HtmlWebpackPlugin({
