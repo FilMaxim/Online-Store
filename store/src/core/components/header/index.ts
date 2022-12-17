@@ -1,4 +1,5 @@
 import Component from '../../templates/components';
+import CartInfo from './cart';
 
 class Header extends Component {
     constructor(tagName: string, className: string) {
@@ -6,17 +7,13 @@ class Header extends Component {
     }
 
     renderPageHeader() {
+        const cartInfo: CartInfo = new CartInfo('div', 'header__cart cart-info');
         this.container.innerHTML = `<a href="./index.html" class="logo header__logo">
         <img src="./assets/img/logo.png" alt="logo" class="logo__img">
         </a>
         <input type="search" class="header__search search" placeholder="Search product">
-        <div class="header__cart cart-info">
-          <span class="cart-info__total">€2,748.00</span>
-          <button class="cart-info__btn btn">
-            <span>11</span>
-            Cart
-          </button>
-      </div>`;
+   `;
+        this.container.append(cartInfo.render());
     }
 
     render() {
