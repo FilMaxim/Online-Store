@@ -9,6 +9,7 @@
 
 :root {
     --btn-bg-color: #1890FF;
+    --btn-bg-color-hover:#5aaffe;
     --btn-font-color:#FFFFFF;
     --font-color:#000;
     --text-color:#8C8C8C;
@@ -26,10 +27,11 @@
     color:var(--btn-font-color);
     cursor: pointer;
     transition: .2s;
+    text-decoration: none;
 }
 .btn::before{
     content:url('./assets/icons/cart-w.svg');
 }
 .btn:hover{
-    opacity:.6;
+    background-color:var(--btn-bg-color-hover);
 }
