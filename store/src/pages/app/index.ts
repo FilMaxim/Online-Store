@@ -48,7 +48,7 @@ class App {
     }
 
     constructor() {
-        this.header = new Header('header', 'header-container');
+        this.header = new Header('header', 'header');
     }
 
     run() {
