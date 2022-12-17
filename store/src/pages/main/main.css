@@ -1,0 +1,13 @@
+.products-items {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.prod-elem {
+    width: 20%;
+    padding-top: 5%;
+    list-style-type: none;
+}
+img {
+    width: 100%;
+}
