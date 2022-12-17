@@ -1,2 +1,4 @@
-const a = 12;
-console.log(a);
+import App from './pages/app/index';
+
+const app = new App();
+app.run();
