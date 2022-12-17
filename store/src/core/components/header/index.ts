@@ -1,5 +1,6 @@
 import Component from '../../templates/components';
 import CartInfo from './cart';
+import Search from './search';
 
 class Header extends Component {
     constructor(tagName: string, className: string) {
@@ -11,8 +12,9 @@ class Header extends Component {
         this.container.innerHTML = `<a href="./index.html" class="logo header__logo">
         <img src="./assets/img/logo.png" alt="logo" class="logo__img">
         </a>
-        <input type="search" class="header__search search" placeholder="Search product">
    `;
+        const searchInput: Search = new Search('input', 'header__search search', 'Search product');
+        this.container.append(searchInput.render());
         this.container.append(cartInfo.render());
     }
 
