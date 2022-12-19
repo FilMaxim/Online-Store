@@ -93,3 +93,31 @@
     font-size: .8rem;
     color: #fada9e;
 }
+
+.filterBlock {
+    border: 1px solid orange;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 5%;
+    display: block;
+}
+
+h3 {
+    text-align: center;
+    background-color: #181a1c;
+    border-bottom: 1px solid orange;
+    text-transform: capitalize;
+}
+
+.filter-list {
+    color: wheat;
+    white-space: nowrap;
+    overflow: auto;
+}
+
+input {
+    cursor: grab;
+    height: 1.1rem;
+    width: 1.1rem;
+    accent-color: orange;
+}
