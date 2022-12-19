@@ -26,39 +26,90 @@ class MainPage extends Page {
         super(id);
     }
 
-    createListProduct() {
-        const containerElements = document.createElement('div');
-        containerElements?.classList.add('products');
+    createMainPage() {
+        const main = document.createElement('div');
+        main.classList.add('main');
+        const appStorePage = document.createElement('div');
+        appStorePage.classList.add('app-store-page');
+        main.append(appStorePage);
 
-        const products = document.createElement('ul');
-        products.classList.add('products-items');
+        const filter = document.createElement('div');
+        filter.classList.add('filter');
+        filter.textContent = 'Категории';
+
+        const products = document.createElement('div');
+        products.classList.add('products');
+
+        const sortProducts = document.createElement('div');
+        sortProducts.classList.add('sort-products');
+        products.append(sortProducts);
+
+        appStorePage.append(filter);
+        appStorePage.append(products);
+
+        products.append(this.createListProduct());
+        return main;
+    }
+
+    createListProduct() {
+        const productsUl = document.createElement('ul');
+        productsUl.classList.add('products-items');
 
         const createProduct = (product: Product) => {
-            const productEl = document.createElement('li');
-            productEl.classList.add('prod-elem');
-            productEl.innerHTML = product.title;
+            const productLi = document.createElement('li');
+            productLi.classList.add('prod-elem');
 
-            const imgProduct = document.createElement('img');
-            imgProduct.src = product.images[0];
+            const itemWrapper = document.createElement('div');
+            itemWrapper.classList.add('item-wrapper');
+            itemWrapper.style.backgroundImage = `url(${product.thumbnail})`;
 
-            productEl.append(imgProduct);
+            const title = document.createElement('div');
+            title.classList.add('item-title');
+            title.textContent = product.title;
+            itemWrapper.append(title);
 
-            return productEl;
+            const info = document.createElement('div');
+            info.classList.add('item-info');
+            itemWrapper.append(info);
+
+            const itemInfo = document.createElement('div');
+            itemInfo.classList.add('item-info-item');
+            info.append(itemInfo);
+
+            const properItemArr = [
+                `Caregory: ${product.category}`,
+                `Brand: ${product.brand}`,
+                `Price: €${product.price}`,
+                `Discount: ${product.discountPercentage}%`,
+                `Rating: ${product.rating}`,
+                `Stock: ${product.stock}`,
+            ];
+
+            properItemArr.forEach((elem) => {
+                const pProp = document.createElement('p');
+                pProp.classList.add('ngcontent');
+                pProp.textContent = elem;
+                itemInfo.append(pProp);
+            });
+
+            productLi.append(itemWrapper);
+
+            return productLi;
         };
 
         obj.products.forEach((el) => {
             console.log(el);
-            products.append(createProduct(el));
+            productsUl.append(createProduct(el));
         });
 
-        containerElements.append(products);
-        return containerElements;
+        return productsUl;
     }
 
     render() {
         const title = this.createHeaderTitle(MainPage.TextObject.MainTitle);
         this.container.append(title);
-        this.container.append(this.createListProduct());
+        this.container.append(this.createMainPage());
+        //this.container.append(this.createListProduct());
         console.log(obj.products);
 
         return this.container;
