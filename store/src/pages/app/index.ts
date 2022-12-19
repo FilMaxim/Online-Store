@@ -17,6 +17,8 @@ class App {
     private header: Header;
 
     static renderNewPage(idPage: string) {
+        console.log(idPage);
+
         const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
         if (currentPageHTML) {
             currentPageHTML.remove();
@@ -48,7 +50,7 @@ class App {
     }
 
     constructor() {
-        this.header = new Header('header', 'header-container');
+        this.header = new Header('header', 'header');
     }
 
     run() {

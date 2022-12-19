@@ -4,6 +4,7 @@ const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslingPlugin = require('eslint-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 const baseConfig = {
     entry: path.resolve(__dirname, './src/index'),
     mode: 'development',
@@ -15,16 +16,13 @@ const baseConfig = {
             },
             { test: /\.ts$/i, use: 'ts-loader' },
             {
-                test: /\.(png|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-            },
-            {
-                test: /\.svg$/,
+                test: /\.(png|jpe?g|gif|svg|webp|ico|mp3)$/i, // для загрузки файлов в папку разработки
                 type: 'asset/resource',
                 generator: {
-                    filename: path.join('icons', '[name].[contenthash][ext]'),
+                  filename: 'assets/images/[hash][ext]',
                 },
             },
+        
         ],
     },
     resolve: {
@@ -33,7 +31,10 @@ const baseConfig = {
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, '../dist'),
-        assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
+        assetModuleFilename: pathData => {
+            const filepath = path.dirname(pathData.filename).split('/').slice(1).join('/');
+            return `${filepath}/[name][ext]`;
+          },
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -42,6 +43,12 @@ const baseConfig = {
         }),
         new CleanWebpackPlugin(),
         new EslingPlugin({ extensions: 'ts' }),
+        new CopyPlugin({
+            patterns: [
+              { from: path.resolve(__dirname, './src/assets/img'), to: path.resolve(__dirname, '../dist/assets/img') },
+             { from: path.resolve(__dirname, './src/assets/icons'), to: path.resolve(__dirname, '../dist/assets/icons') },            
+            ],
+          }),
     ],
 };
 
