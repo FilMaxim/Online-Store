@@ -2,28 +2,21 @@ import './main.css';
 import Page from '../../core/templates/page';
 import * as obj from './products.json';
 
-interface Product {
-    brand: string;
-    category: string;
-    description: string;
-    discountPercentage: number;
-    id: number;
-    images: string[];
-    price: number;
-    rating: number;
-    stock: number;
-    textContent?: string;
-    thumbnail: string;
-    title: string;
-}
+import Card from '../../core/components/main/card';
+import mainCards from '../../core/components/main/mainCards';
+import { Product } from '../../core/components/main/card';
 
 class MainPage extends Page {
     static TextObject = {
         MainTitle: 'Страница товаров с фильтрами',
     };
+    products: Product[];
+    mainAreaCards: mainCards;
 
-    constructor(id: string) {
+    constructor(id: string, products: Product[]) {
         super(id);
+        this.products = products;
+        this.mainAreaCards = new mainCards('ul', 'products-items', products);
     }
 
     createMainPage() {
@@ -48,61 +41,8 @@ class MainPage extends Page {
         appStorePage.append(filter);
         appStorePage.append(products);
 
-        products.append(this.createListProduct());
+        products.append(this.mainAreaCards.render());
         return main;
-    }
-
-    createListProduct() {
-        const productsUl = document.createElement('ul');
-        productsUl.classList.add('products-items');
-
-        const createProduct = (product: Product) => {
-            const productLi = document.createElement('li');
-            productLi.classList.add('prod-elem');
-
-            const itemWrapper = document.createElement('div');
-            itemWrapper.classList.add('item-wrapper');
-            itemWrapper.style.backgroundImage = `url(${product.thumbnail})`;
-
-            const title = document.createElement('div');
-            title.classList.add('item-title');
-            title.textContent = product.title;
-            itemWrapper.append(title);
-
-            const info = document.createElement('div');
-            info.classList.add('item-info');
-            itemWrapper.append(info);
-
-            const itemInfo = document.createElement('div');
-            itemInfo.classList.add('item-info-item');
-            info.append(itemInfo);
-
-            const properItemArr = [
-                `Caregory: ${product.category}`,
-                `Brand: ${product.brand}`,
-                `Price: €${product.price}`,
-                `Discount: ${product.discountPercentage}%`,
-                `Rating: ${product.rating}`,
-                `Stock: ${product.stock}`,
-            ];
-
-            properItemArr.forEach((elem) => {
-                const pProp = document.createElement('p');
-                pProp.classList.add('ngcontent');
-                pProp.textContent = elem;
-                itemInfo.append(pProp);
-            });
-
-            productLi.append(itemWrapper);
-
-            return productLi;
-        };
-
-        obj.products.forEach((el) => {
-            productsUl.append(createProduct(el));
-        });
-
-        return productsUl;
     }
 
     //массив для фильтра;
