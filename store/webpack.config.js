@@ -8,6 +8,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const baseConfig = {
     entry: path.resolve(__dirname, './src/index'),
     mode: 'development',
+    devServer:{overlay:true},
     module: {
         rules: [
             {
