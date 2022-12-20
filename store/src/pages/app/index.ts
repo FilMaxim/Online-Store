@@ -5,6 +5,8 @@ import DescriptionPage from '../description/index';
 import Header from '../../core/components/header/index';
 import ErrorPage, { ErrorTypes } from '../error/index';
 
+import * as obj from '../main/products.json';
+
 export const enum PageIds {
     MainPage = 'main-page',
     CartPage = 'cart-page',
@@ -24,7 +26,7 @@ class App {
         let page: Page | null = null;
 
         if (idPage === PageIds.MainPage) {
-            page = new MainPage(idPage);
+            page = new MainPage(idPage, obj['products']);
         } else if (idPage === PageIds.CartPage) {
             page = new CartPage(idPage);
         } else if (idPage === PageIds.DescriptionPage) {
