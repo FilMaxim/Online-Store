@@ -26,6 +26,9 @@ class MainPage extends Page {
         super(id);
     }
 
+    newObject = obj.products;
+
+    //создание шаблона страницы main
     createMainPage() {
         const main = document.createElement('div');
         main.classList.add('main');
@@ -47,13 +50,17 @@ class MainPage extends Page {
 
         appStorePage.append(filter);
         appStorePage.append(products);
-
         products.append(this.createListProduct());
         return main;
     }
 
+    //создание товаров
     createListProduct() {
         const productsUl = document.createElement('ul');
+
+        if (productsUl.classList.contains('products-items')) {
+            productsUl.innerHTML = '';
+        }
         productsUl.classList.add('products-items');
 
         const createProduct = (product: Product) => {
@@ -97,11 +104,11 @@ class MainPage extends Page {
 
             return productLi;
         };
-
-        obj.products.forEach((el) => {
+        this.newObject.forEach((el) => {
             productsUl.append(createProduct(el));
         });
 
+        //document.querySelector('.products').append(productsUl);
         return productsUl;
     }
 
@@ -116,6 +123,7 @@ class MainPage extends Page {
         return arr;
     };
 
+    //создание фильтров
     createFilter(filterBlock: 'category' | 'brand') {
         const category = document.createElement('div');
         category.classList.add('filterBlock');
@@ -127,9 +135,7 @@ class MainPage extends Page {
         const filterList = document.createElement('div');
         filterList.classList.add('filter-list');
         category.append(filterList);
-        // arrCategory - массив для category
         const arrCategory = this.arrCategories(filterBlock);
-        console.log(arrCategory);
 
         arrCategory.forEach((el) => {
             const checkboxLine = document.createElement('div');
@@ -138,6 +144,7 @@ class MainPage extends Page {
             const imputCategory = document.createElement('input');
             imputCategory.type = 'checkbox';
             imputCategory.id = el;
+
             const labelCategory = document.createElement('label');
             labelCategory.htmlFor = el;
             labelCategory.textContent = el;
@@ -154,8 +161,8 @@ class MainPage extends Page {
         const title = this.createHeaderTitle(MainPage.TextObject.MainTitle);
         this.container.append(title);
         this.container.append(this.createMainPage());
-        console.log(obj.products);
 
+        //(this.container.querySelector('.products') as HTMLDivElement).append(this.createListProduct());
         return this.container;
     }
 }
