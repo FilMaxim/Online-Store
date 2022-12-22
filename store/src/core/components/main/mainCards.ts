@@ -10,10 +10,12 @@ export default class mainCards extends Component {
     }
     createMainCards() {
         this.container.textContent = '';
-        this.cards.forEach((item) => {
-            const card = new Card('li', 'prod-elem');
-            this.container.append(card.renderCard(item));
-        });
+        if (this.cards.length === 0) this.container.textContent = 'Не найдено соответствующих товаров';
+        else
+            this.cards.forEach((item) => {
+                const card = new Card('li', 'prod-elem');
+                this.container.append(card.renderCard(item));
+            });
     }
     render() {
         this.createMainCards();
