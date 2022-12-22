@@ -5,8 +5,6 @@ import DescriptionPage from '../description/index';
 import Header from '../../core/components/header/index';
 import ErrorPage, { ErrorTypes } from '../error/index';
 
-import * as obj from '../main/products.json';
-
 export const enum PageIds {
     MainPage = 'main-page',
     CartPage = 'cart-page',
@@ -18,15 +16,23 @@ class App {
     private static defaultPageId = 'current-page';
     private header: Header;
 
+    //проверка на корректные url
+    static checkHash(str: string): boolean {
+        const regExpCategory = str.split('=');
+        return regExpCategory[0] === '?category' || regExpCategory[0] === '?brand';
+    }
+
     static renderNewPage(idPage: string) {
+        if (idPage === '') return;
         const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
+
         if (currentPageHTML) {
             currentPageHTML.remove();
         }
         let page: Page | null = null;
 
-        if (idPage === PageIds.MainPage) {
-            page = new MainPage(idPage, obj['products']);
+        if (idPage === PageIds.MainPage || App.checkHash(idPage)) {
+            page = new MainPage(idPage);
         } else if (idPage === PageIds.CartPage) {
             page = new CartPage(idPage);
         } else if (idPage === PageIds.DescriptionPage) {
@@ -45,7 +51,11 @@ class App {
     private enableRouteChange() {
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
-            App.renderNewPage(hash);
+            //убираем знак вопроса, если отменили все фильтры
+            if (hash === '?') window.location.hash = '';
+            //если хеш сформирован корректный (вручную или кликами), то новую страниицу не рисуем
+            else if (App.checkHash(hash)) return;
+            else App.renderNewPage(hash);
         });
     }
 
@@ -55,7 +65,9 @@ class App {
 
     run() {
         App.container.append(this.header.render());
-        App.renderNewPage('main-page');
+
+        if (window.location.hash === '') window.location.hash = 'main-page';
+        else App.renderNewPage(window.location.hash.slice(1));
         this.enableRouteChange();
     }
 }
