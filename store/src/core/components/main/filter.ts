@@ -3,9 +3,11 @@ import Component from '../../templates/components';
 import * as obj from '../../../pages/main/products.json';
 export default class Filter extends Component {
     filterBlock: 'category' | 'brand';
-    constructor(tagName: string, className: string, filterBlock: 'category' | 'brand') {
+    param: string[];
+    constructor(tagName: string, className: string, filterBlock: 'category' | 'brand', param: string[]) {
         super(tagName, className);
         this.filterBlock = filterBlock;
+        this.param = param; //для выделения чекнутых фильтров
     }
     arrCategories() {
         const arr: string[] = [];
@@ -26,7 +28,6 @@ export default class Filter extends Component {
         this.container.append(filterList);
         // arrCategory - массив для category
         const arrCategory = this.arrCategories();
-        console.log(arrCategory);
 
         arrCategory.forEach((el) => {
             const checkboxLine = document.createElement('div');
@@ -35,6 +36,8 @@ export default class Filter extends Component {
             const imputCategory = document.createElement('input');
             imputCategory.type = 'checkbox';
             imputCategory.id = el;
+            if (this.param.indexOf(el) !== -1) imputCategory.checked = true;
+
             const labelCategory = document.createElement('label');
             labelCategory.htmlFor = el;
             labelCategory.textContent = el;
@@ -47,7 +50,7 @@ export default class Filter extends Component {
         return this.container;
     }
     render() {
-        this.createFilter();
+        this.createFilter.call(this);
         return this.container;
     }
 }
