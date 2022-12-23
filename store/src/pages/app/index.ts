@@ -35,7 +35,7 @@ class App {
             page = new MainPage(idPage);
         } else if (idPage === PageIds.CartPage) {
             page = new CartPage(idPage);
-        } else if (idPage === PageIds.DescriptionPage) {
+        } else if (idPage.includes('id=')) {
             page = new DescriptionPage(idPage);
         } else {
             page = new ErrorPage(idPage, ErrorTypes.Error_404);
@@ -43,8 +43,10 @@ class App {
 
         if (page) {
             const pageHTML = page.render();
+
             pageHTML.id = App.defaultPageId;
             App.container.append(pageHTML);
+            if (page instanceof MainPage) MainPage.searchProductsHash();
         }
     }
 
@@ -54,7 +56,7 @@ class App {
             //убираем знак вопроса, если отменили все фильтры
             if (hash === '?') window.location.hash = '';
             //если хеш сформирован корректный (вручную или кликами), то новую страниицу не рисуем
-            else if (App.checkHash(hash)) return;
+            else if (App.checkHash(hash)) MainPage.searchProductsHash();
             else App.renderNewPage(hash);
         });
     }
