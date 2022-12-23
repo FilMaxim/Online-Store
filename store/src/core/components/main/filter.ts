@@ -4,10 +4,34 @@ import * as obj from '../../../pages/main/products.json';
 export default class Filter extends Component {
     filterBlock: 'category' | 'brand';
     param: string[];
-    constructor(tagName: string, className: string, filterBlock: 'category' | 'brand', param: string[]) {
+    static searchCheckParam(name: string): string[] {
+        const url = new URL(window.location.href.replace('#', ''));
+        const res = url.searchParams.get(name);
+
+        return res ? res.split(',') : [];
+    }
+    constructor(tagName: string, className: string, filterBlock: 'category' | 'brand') {
         super(tagName, className);
         this.filterBlock = filterBlock;
-        this.param = param; //для выделения чекнутых фильтров
+        this.param = Filter.searchCheckParam(this.filterBlock); //для выделения чекнутых фильтров
+    }
+    setHash(e: Event) {
+        const target = e.target as Element;
+        if (!target.matches('input')) return;
+        const targetCheck = e.target as HTMLInputElement;
+        const url = new URL(window.location.href.replace('#', ''));
+        let res = url.searchParams.get(this.filterBlock);
+        if (!res) res = targetCheck.id;
+        else {
+            console.log(res.includes(target.id), res, target.id);
+
+            if (res.includes(target.id)) res = res.replace(target.id, '');
+            else res += `,${targetCheck.id}`;
+        }
+        url.searchParams.set(this.filterBlock, res);
+        console.log(url.search);
+
+        window.location.hash = url.search;
     }
     arrCategories() {
         const arr: string[] = [];
@@ -19,6 +43,7 @@ export default class Filter extends Component {
         return arr;
     }
     createFilter() {
+        Filter.searchCheckParam(this.filterBlock);
         const categoryH1 = document.createElement('h3');
         categoryH1.textContent = this.filterBlock;
         this.container.append(categoryH1);
@@ -51,6 +76,7 @@ export default class Filter extends Component {
     }
     render() {
         this.createFilter.call(this);
+        this.container.addEventListener('click', this.setHash.bind(this));
         return this.container;
     }
 }
