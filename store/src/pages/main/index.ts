@@ -1,45 +1,67 @@
 import './main.css';
 import Page from '../../core/templates/page';
+import Card from '../../core/components/main/card';
+import Filter from '../../core/components/main/filter';
 
-import mainCards from '../../core/components/main/mainCards';
-import { Product } from '../../core/components/main/card';
-import mainFilter from '../../core/components/main/mainFilter';
-import { parametrObj } from '../../core/components/main/mainFilter';
 import * as objProducts from './products.json';
 
 export const obj = objProducts;
 
+export interface IParametrs {
+    category: string[];
+    brand: string[];
+    sort: string;
+    search: string;
+    big: boolean;
+    price: number[];
+    stok: number[];
+}
+export interface IUrlHashParametr {
+    [key: string]: string;
+}
 class MainPage extends Page {
     static TextObject = {
         MainTitle: 'Страница товаров с фильтрами',
     };
-    products: Product[];
-    mainAreaCards: mainCards;
-    checkFilter: parametrObj;
 
-    //делаем из строки хеша объект для фильтра
-    static createObjectParametrs(str: string): parametrObj {
-        if (str[0] !== '?') return { category: [], brand: [] };
-        str = str.slice(1);
-
-        const reg = new RegExp('%20', 'gi');
-        str = str.replace(reg, '');
-
-        const res: string[][] = str.split('?&').map((item) => item.split('='));
-        const newRes: parametrObj = { category: [], brand: [] };
-        res.forEach((item) => {
-            if (item[0] === 'category') newRes[item[0]] = item[1].split('|');
-            if (item[0] === 'brand') newRes[item[0]] = item[1].split('|');
+    //метод который по хешу ищет товары и рендерит их на страницу
+    static searchProductsHash() {
+        let obj = objProducts.products;
+        const url = new URL(window.location.href.replace('#', ''));
+        const hashParametr: IUrlHashParametr = {};
+        url.searchParams.forEach((item, index) => {
+            hashParametr[index] = item;
         });
+        if (hashParametr['category']) {
+            obj = obj.filter((item) => {
+                if (hashParametr.category.indexOf(item.category) === -1) return false;
+                return true;
+            });
+        }
+        if (hashParametr['brand'])
+            obj = obj.filter((item) => {
+                if (hashParametr.brand.indexOf(item.brand) === -1) return false;
+                return true;
+            });
 
-        return newRes;
+        //добавить сюда сортировку и два ренжа
+
+        const areaCards = document.querySelector('.products-items');
+        console.log(areaCards);
+
+        if (areaCards) {
+            areaCards.textContent = '';
+            if (obj.length === 0) areaCards.textContent = 'Не найдено соответствующих товаров';
+            else
+                obj.forEach((item) => {
+                    const card = new Card('li', 'prod-elem', item);
+                    areaCards.append(card.render());
+                });
+        }
     }
 
     constructor(id: string) {
         super(id);
-        this.checkFilter = MainPage.createObjectParametrs(id);
-        this.products = mainFilter.searchCardsFilter(this.checkFilter); //вызываем метод из фильтра, который ищет объекты из массива с товарами
-        this.mainAreaCards = new mainCards('ul', 'products-items', this.products);
     }
 
     createMainPage() {
@@ -49,7 +71,10 @@ class MainPage extends Page {
         appStorePage.classList.add('app-store-page');
         main.append(appStorePage);
 
-        const filter = new mainFilter('div', 'filter', this.mainAreaCards, this.checkFilter);
+        const filter = document.createElement('div');
+        filter.classList.add('filter');
+        filter.append(new Filter('div', 'filterBlock category', 'category').render());
+        filter.append(new Filter('div', 'filterBlock brand', 'brand').render());
 
         const products = document.createElement('div');
         products.classList.add('products');
@@ -58,10 +83,13 @@ class MainPage extends Page {
         sortProducts.classList.add('sort-products');
         products.append(sortProducts);
 
-        appStorePage.append(filter.render());
+        appStorePage.append(filter);
         appStorePage.append(products);
 
-        products.append(this.mainAreaCards.render());
+        const mainAreaCards = document.createElement('ul');
+        mainAreaCards.classList.add('products-items');
+
+        products.append(mainAreaCards);
         return main;
     }
 
