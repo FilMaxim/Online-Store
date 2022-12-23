@@ -15,8 +15,10 @@ export interface Product {
     title: string;
 }
 export default class Card extends Component {
-    constructor(tagName: string, className: string) {
+    product: Product;
+    constructor(tagName: string, className: string, product: Product) {
         super(tagName, className);
+        this.product = product;
     }
     renderCard(product: Product) {
         const itemWrapper = document.createElement('div');
@@ -52,10 +54,40 @@ export default class Card extends Component {
             itemInfo.append(pProp);
         });
 
+        const btns = document.createElement('div');
+        btns.classList.add('card__btns');
+
+        for (let index = 0; index < 2; index++) {
+            const element = document.createElement('button');
+            element.className = 'card__btn btn';
+            if (index === 0) {
+                element.textContent = 'Add';
+                element.classList.add('card-cart');
+            } else {
+                element.textContent = 'Desc';
+                element.classList.add('card-desc');
+            }
+            btns.append(element);
+        }
+
+        itemWrapper.append(btns);
+        this.container.setAttribute('id', String(product.id));
+
         this.container.append(itemWrapper);
-        return this.container;
+    }
+    setHashDeskId(e: Event) {
+        const target = e.target as Element;
+        console.log(target);
+
+        if (!target.matches('button')) return;
+        const id = target.closest(`.${this.container.className}`)?.getAttribute('id');
+
+        if (target.matches('.card-desc')) window.location.hash = `id=${id}`;
     }
     render() {
+        this.renderCard(this.product);
+        this.container.addEventListener('click', this.setHashDeskId.bind(this));
+
         return this.container;
     }
 }

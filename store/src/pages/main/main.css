@@ -121,3 +121,8 @@ input {
     width: 1.1rem;
     accent-color: orange;
 }
+
+.card__btns{
+    display: flex;
+    gap: 10px;
+}
