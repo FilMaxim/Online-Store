@@ -2,6 +2,8 @@ import './main.css';
 import Page from '../../core/templates/page';
 import Card from '../../core/components/main/card';
 import Filter from '../../core/components/main/filter';
+import { Product } from '../../core/components/main/card';
+import { ICountProducts } from '../../core/components/main/filter';
 
 import * as objProducts from './products.json';
 
@@ -29,20 +31,30 @@ class MainPage extends Page {
         let obj = objProducts.products;
         const url = new URL(window.location.href.replace('#', ''));
         const hashParametr: IUrlHashParametr = {};
+
+        //перебираем все параметры, что есть в юрл
         url.searchParams.forEach((item, index) => {
             hashParametr[index] = item;
         });
+
+        //фильтры по категориям
         if (hashParametr['category']) {
             obj = obj.filter((item) => {
                 if (hashParametr.category.indexOf(item.category) === -1) return false;
                 return true;
             });
         }
+        //фильтры по бренду
         if (hashParametr['brand'])
             obj = obj.filter((item) => {
                 if (hashParametr.brand.indexOf(item.brand) === -1) return false;
                 return true;
             });
+
+        //количество товаров в по каждой категории в фильтрах
+        const filtersCountProduct = Filter.arrCategories(obj);
+        MainPage.filterCount(filtersCountProduct, 'brand');
+        MainPage.filterCount(filtersCountProduct, 'category');
 
         //добавить сюда сортировку и два ренжа
 
@@ -57,6 +69,23 @@ class MainPage extends Page {
                     areaCards.append(card.render());
                 });
         }
+    }
+
+    static filterCount(filtersCountProduct: ICountProducts, param: 'category' | 'brand') {
+        const filterCategory = filtersCountProduct[param];
+        console.log(filterCategory);
+        const categories = document.querySelectorAll(`.${param} .check-line`);
+        categories.forEach((item) => {
+            const name = item.getAttribute('data-name');
+            const elem = filterCategory.find((i) => Object.keys(i)[0] === name);
+            console.log(elem);
+            const c = item.querySelector('.count') as Element;
+            if (elem) {
+                c.textContent = String(Object.values(elem)[0]);
+            } else {
+                c.textContent = '0';
+            }
+        });
     }
 
     constructor(id: string) {
