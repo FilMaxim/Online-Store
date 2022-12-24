@@ -53,10 +53,8 @@ class App {
     private enableRouteChange() {
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
-            //убираем знак вопроса, если отменили все фильтры
-            if (hash === '?') window.location.hash = '';
             //если хеш сформирован корректный (вручную или кликами), то новую страниицу не рисуем
-            else if (App.checkHash(hash)) MainPage.searchProductsHash();
+            if (App.checkHash(hash)) MainPage.searchProductsHash();
             else App.renderNewPage(hash);
         });
     }

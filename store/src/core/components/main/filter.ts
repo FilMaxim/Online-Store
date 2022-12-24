@@ -23,13 +23,15 @@ export default class Filter extends Component {
         let res = url.searchParams.get(this.filterBlock);
         if (!res) res = targetCheck.id;
         else {
-            console.log(res.includes(target.id), res, target.id);
-
-            if (res.includes(target.id)) res = res.replace(target.id, '');
-            else res += `,${targetCheck.id}`;
+            if (res.includes(target.id)) {
+                const reg1 = new RegExp(`,${target.id}`, 'gi');
+                const reg2 = new RegExp(`${target.id}`, 'gi');
+                res = res.replace(reg1, '');
+                res = res.replace(reg2, '');
+            } else res += `,${targetCheck.id}`;
         }
         url.searchParams.set(this.filterBlock, res);
-        console.log(url.search);
+        console.log(res);
 
         window.location.hash = url.search;
     }

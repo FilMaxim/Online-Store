@@ -47,7 +47,6 @@ class MainPage extends Page {
         //добавить сюда сортировку и два ренжа
 
         const areaCards = document.querySelector('.products-items');
-        console.log(areaCards);
 
         if (areaCards) {
             areaCards.textContent = '';

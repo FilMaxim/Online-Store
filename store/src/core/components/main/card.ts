@@ -77,8 +77,6 @@ export default class Card extends Component {
     }
     setHashDeskId(e: Event) {
         const target = e.target as Element;
-        console.log(target);
-
         if (!target.matches('button')) return;
         const id = target.closest(`.${this.container.className}`)?.getAttribute('id');
 
