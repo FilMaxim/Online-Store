@@ -10,6 +10,8 @@ class DescriptionPage extends Page {
     }
 
     render() {
+        console.log(this.container.id);
+
         const title = this.createHeaderTitle(DescriptionPage.TextObject.MainTitle);
         this.container.append(title);
         return this.container;

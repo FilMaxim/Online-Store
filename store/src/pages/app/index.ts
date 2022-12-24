@@ -36,7 +36,7 @@ class App {
         } else if (idPage === PageIds.CartPage) {
             page = new CartPage(idPage);
         } else if (idPage.includes('id=')) {
-            page = new DescriptionPage(idPage);
+            page = new DescriptionPage(idPage.replace('id=', ''));
         } else {
             page = new ErrorPage(idPage, ErrorTypes.Error_404);
         }
