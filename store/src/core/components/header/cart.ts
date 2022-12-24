@@ -14,7 +14,7 @@ export default class CartInfo extends Component {
         newTotal.className = 'cart-info__total';
         newTotal.textContent = '€' + String(this.total);
         const newBtnCart = document.createElement('a');
-        newBtnCart.className = 'cart-info__btn btn';
+        newBtnCart.className = 'cart-info__btn btn btn-cart';
         if (this.count > 0)
             newBtnCart.innerHTML = `<span>${this.count}</span>
         Cart`;

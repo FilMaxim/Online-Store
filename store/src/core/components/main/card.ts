@@ -62,10 +62,10 @@ export default class Card extends Component {
             element.className = 'card__btn btn';
             if (index === 0) {
                 element.textContent = 'Add';
-                element.classList.add('card-cart');
+                element.classList.add('btn-cart');
             } else {
                 element.textContent = 'Desc';
-                element.classList.add('card-desc');
+                element.classList.add('btn-desc');
             }
             btns.append(element);
         }
@@ -80,7 +80,7 @@ export default class Card extends Component {
         if (!target.matches('button')) return;
         const id = target.closest(`.${this.container.className}`)?.getAttribute('id');
 
-        if (target.matches('.card-desc')) window.location.hash = `id=${id}`;
+        if (target.matches('.btn-desc')) window.location.hash = `id=${id}`;
     }
     render() {
         this.renderCard(this.product);

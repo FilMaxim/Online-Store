@@ -7,7 +7,7 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     font-size: calc(.2rem + 1vw);
-    color: orange;
+ 
     word-wrap: break-word;
 
 }
@@ -35,10 +35,28 @@
     text-decoration: none;
 }
 
-.btn::before {
+.btn-cart::before {
     content: url('./assets/icons/cart-w.svg');
 }
-
+.btn-desc::before {
+    content: url('./assets/icons/desc.svg');
+}
 .btn:hover {
     background-color: var(--btn-bg-color-hover);
+}
+
+::-webkit-scrollbar {
+    width: 5px; 
+    height: 3px; 
+    background-color: var(--btn-bg-color-hover);
+}
+
+/* ползунок скроллбара */
+::-webkit-scrollbar-thumb {
+    border-radius: 9em;
+    box-shadow: inset 1px 1px 10px #f3faf7;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #253861;
 }
