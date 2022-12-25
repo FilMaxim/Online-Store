@@ -2,6 +2,7 @@ import './main.css';
 import Page from '../../core/templates/page';
 import Card from '../../core/components/main/card';
 import Filter from '../../core/components/main/filter';
+import Range from '../../core/components/main/range';
 
 import { IUrlHashParametr } from '../../types';
 
@@ -74,6 +75,9 @@ class MainPage extends Page {
         filter.classList.add('filter');
         filter.append(new Filter('div', 'filterBlock category', 'category').render());
         filter.append(new Filter('div', 'filterBlock brand', 'brand').render());
+
+        filter.append(new Range('div', 'filterBlock range', 'price').render());
+        filter.append(new Range('div', 'filterBlock range', 'stock').render());
 
         const products = document.createElement('div');
         products.classList.add('products');
