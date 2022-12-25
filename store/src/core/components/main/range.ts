@@ -1,38 +1,35 @@
 import Component from '../../templates/components';
 import { Product } from '../../../types';
+import { obj as objProduct } from '../../../pages/main';
+import { sort } from 'semver';
 export default class Range extends Component {
+    static sortObj(obj: Product[], typeProduct: 'price' | 'stock') {
+        const res = obj.sort((a, b) => (a[typeProduct] > b[typeProduct] ? 1 : -1));
+        return res;
+    }
+    static minMaxObj(obj: Product[], typeProduct: 'price' | 'stock') {
+        const res = Range.sortObj(obj, typeProduct);
+        return { min: res[0][typeProduct], max: res[res.length - 1][typeProduct] };
+    }
     rangeType: 'price' | 'stock';
-    inputMin: HTMLInputElement;
-    inputMax: HTMLInputElement;
+    inputMin: number;
+    inputMax: number;
     constructor(tagName: string, className: string, rangeType: 'price' | 'stock') {
         super(tagName, className);
         this.rangeType = rangeType;
-        this.inputMin = document.createElement('input');
-        this.inputMin.id = `${this.rangeType}-min`;
-        this.inputMax = document.createElement('input');
-        this.inputMax.id = `${this.rangeType}-max`;
+        const minMax = Range.minMaxObj(objProduct, this.rangeType);
+        this.inputMin = minMax.min;
+        this.inputMax = minMax.max;
     }
     createRange() {
-        //   const container = document.createElement('div');
-        //   container.classList.add(`container-range ${this.rangeType}`);
-        //   container.innerHTML = `<div class="range__title">
-        //   <h2>${this.rangeType}</h2>
-        // </div>`;
-
-        //   const rangeSlider = document.createElement('div');
-        //   rangeSlider.classList.add('range__slider');
-        //   const inputs = document.createElement('div');
-        //   inputs.id = `range-${this.rangeType}`;
-        //   rangeSlider.append(inputs);
-
-        //   const rangeValues = document.createElement('div');
-        //   rangeValues.classList.add('range__values');
-
+        Range.minMaxObj(objProduct, 'price');
         this.container.innerHTML = ` <h3>${this.rangeType}</h3>
         <section class="range-slider">
-          <span class="rangeValues"></span>
-          <input value="500" min="500" max="50000" step="500" type="range">
-          <input value="50000" min="500" max="50000" step="500" type="range">
+          <span class="rangeValues">${this.rangeType === 'price' ? '$' : ''}<span class=range-min>${
+            this.inputMin
+        }</span> - ${this.rangeType === 'price' ? '$' : ''}<span class=range-max>${this.inputMax}</span></span>
+          <input value="${this.inputMin}" min="${this.inputMin}" max="${this.inputMax}" step="10" type="range">
+          <input value="${this.inputMax}" min="${this.inputMin}" max="${this.inputMax}" step="10" type="range">
         </section>`;
     }
     rangeChange() {
@@ -46,9 +43,10 @@ export default class Range extends Component {
             slide1 = tmp;
         }
 
-        const displayElement = parent.getElementsByClassName('rangeValues')[0];
-        if (this.rangeType === 'price') displayElement.innerHTML = '$ ' + slide1 + ' - $' + slide2;
-        else displayElement.innerHTML = slide1 + ' - ' + slide2;
+        const min = parent.querySelector('.range-min');
+        const max = parent.querySelector('.range-max');
+        if (min) min.textContent = String(slide1);
+        if (max) max.textContent = String(slide2);
     }
 
     rangeInit() {
