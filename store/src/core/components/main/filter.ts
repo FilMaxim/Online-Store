@@ -63,10 +63,8 @@ export default class Filter extends Component {
         if (!res) res = targetCheck.id;
         else {
             if (res.includes(target.id)) {
-                const reg1 = new RegExp(`,${target.id}`, 'gi');
-                const reg2 = new RegExp(`${target.id}`, 'gi');
+                const reg1 = new RegExp(`,?${target.id}`, 'gi');
                 res = res.replace(reg1, '');
-                res = res.replace(reg2, '');
             } else res += `,${targetCheck.id}`;
         }
         url.searchParams.set(this.filterBlock, res);
