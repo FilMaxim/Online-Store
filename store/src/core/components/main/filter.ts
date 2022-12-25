@@ -1,14 +1,9 @@
 import Component from '../../templates/components';
 
-import * as obj from '../../../pages/main/products.json';
-import { Product } from './card';
-interface ICountProduct {
-    [key: string]: number;
-}
-export interface ICountProducts {
-    category: ICountProduct[];
-    brand: ICountProduct[];
-}
+import { obj } from '../../../pages/main';
+import { Product } from '../../../types';
+import { ICountProducts } from '../../../types';
+
 export default class Filter extends Component {
     static arrCategories(obj: Product[]) {
         const categoryCount: ICountProducts = { category: [], brand: [] };
@@ -28,9 +23,23 @@ export default class Filter extends Component {
                 categoryCount['brand'][indexBrand][key]++;
             }
         });
-        console.log(categoryCount);
 
         return categoryCount;
+    }
+    //считает кол-во товаров по каждому пункту фильтров
+    static filterCount(filtersCountProduct: ICountProducts, param: 'category' | 'brand') {
+        const filterCategory = filtersCountProduct[param];
+        const categories = document.querySelectorAll(`.${param} .check-line`);
+        categories.forEach((item) => {
+            const name = item.getAttribute('data-name');
+            const elem = filterCategory.find((i) => Object.keys(i)[0] === name);
+            const c = item.querySelector('.count') as Element;
+            if (elem) {
+                c.textContent = String(Object.values(elem)[0]);
+            } else {
+                c.textContent = '0';
+            }
+        });
     }
     filterBlock: 'category' | 'brand';
     param: string[];
@@ -61,8 +70,6 @@ export default class Filter extends Component {
             } else res += `,${targetCheck.id}`;
         }
         url.searchParams.set(this.filterBlock, res);
-        console.log(res);
-
         window.location.hash = url.search;
     }
 
@@ -76,7 +83,7 @@ export default class Filter extends Component {
         filterList.classList.add('filter-list');
         this.container.append(filterList);
         // arrCategory - массив для category
-        const arrCategory = Filter.arrCategories(obj.products)[this.filterBlock];
+        const arrCategory = Filter.arrCategories(obj)[this.filterBlock];
 
         arrCategory.forEach((el) => {
             const key = Object.keys(el)[0];

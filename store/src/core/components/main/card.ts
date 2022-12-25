@@ -1,19 +1,6 @@
 import Component from '../../templates/components';
+import { Product } from '../../../types';
 
-export interface Product {
-    brand: string;
-    category: string;
-    description: string;
-    discountPercentage: number;
-    id: number;
-    images: string[];
-    price: number;
-    rating: number;
-    stock: number;
-    textContent?: string;
-    thumbnail: string;
-    title: string;
-}
 export default class Card extends Component {
     product: Product;
     constructor(tagName: string, className: string, product: Product) {

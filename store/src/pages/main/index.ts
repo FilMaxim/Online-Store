@@ -2,25 +2,13 @@ import './main.css';
 import Page from '../../core/templates/page';
 import Card from '../../core/components/main/card';
 import Filter from '../../core/components/main/filter';
-import { Product } from '../../core/components/main/card';
-import { ICountProducts } from '../../core/components/main/filter';
+
+import { IUrlHashParametr } from '../../types';
 
 import * as objProducts from './products.json';
 
-export const obj = objProducts;
+export const obj = objProducts.products;
 
-export interface IParametrs {
-    category: string[];
-    brand: string[];
-    sort: string;
-    search: string;
-    big: boolean;
-    price: number[];
-    stok: number[];
-}
-export interface IUrlHashParametr {
-    [key: string]: string;
-}
 class MainPage extends Page {
     static TextObject = {
         MainTitle: 'Страница товаров с фильтрами',
@@ -53,8 +41,8 @@ class MainPage extends Page {
 
         //количество товаров в по каждой категории в фильтрах
         const filtersCountProduct = Filter.arrCategories(obj);
-        MainPage.filterCount(filtersCountProduct, 'brand');
-        MainPage.filterCount(filtersCountProduct, 'category');
+        Filter.filterCount(filtersCountProduct, 'brand');
+        Filter.filterCount(filtersCountProduct, 'category');
 
         //добавить сюда сортировку и два ренжа
 
@@ -69,23 +57,6 @@ class MainPage extends Page {
                     areaCards.append(card.render());
                 });
         }
-    }
-
-    static filterCount(filtersCountProduct: ICountProducts, param: 'category' | 'brand') {
-        const filterCategory = filtersCountProduct[param];
-        console.log(filterCategory);
-        const categories = document.querySelectorAll(`.${param} .check-line`);
-        categories.forEach((item) => {
-            const name = item.getAttribute('data-name');
-            const elem = filterCategory.find((i) => Object.keys(i)[0] === name);
-            console.log(elem);
-            const c = item.querySelector('.count') as Element;
-            if (elem) {
-                c.textContent = String(Object.values(elem)[0]);
-            } else {
-                c.textContent = '0';
-            }
-        });
     }
 
     constructor(id: string) {
