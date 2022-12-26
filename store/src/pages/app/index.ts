@@ -19,7 +19,12 @@ class App {
     //проверка на корректные url
     static checkHash(str: string): boolean {
         const regExpCategory = str.split('=');
-        return regExpCategory[0] === '?category' || regExpCategory[0] === '?brand';
+        return (
+            regExpCategory[0] === '?category' ||
+            regExpCategory[0] === '?brand' ||
+            regExpCategory[0] === '?stock' ||
+            regExpCategory[0] === '?price'
+        );
     }
 
     static renderNewPage(idPage: string) {
