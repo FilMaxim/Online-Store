@@ -11,6 +11,7 @@ export default class Range extends Component {
         const res = Range.sortObj(obj, typeProduct);
         return { min: res[0][typeProduct], max: res[res.length - 1][typeProduct] };
     }
+
     rangeType: 'price' | 'stock';
     inputMin: number;
     inputMax: number;
@@ -45,8 +46,18 @@ export default class Range extends Component {
 
         const min = parent.querySelector('.range-min');
         const max = parent.querySelector('.range-max');
-        if (min) min.textContent = String(slide1);
-        if (max) max.textContent = String(slide2);
+        const res = [];
+        if (min) {
+            min.textContent = String(slide1);
+            res.push(min.textContent);
+        }
+        if (max) {
+            max.textContent = String(slide2);
+            res.push(max.textContent);
+        }
+        const url = new URL(window.location.href.replace('#', ''));
+        url.searchParams.set(this.rangeType, res.join('|'));
+        window.location.hash = url.search;
     }
 
     rangeInit() {

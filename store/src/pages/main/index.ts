@@ -39,6 +39,15 @@ class MainPage extends Page {
                 if (hashParametr.brand.indexOf(item.brand) === -1) return false;
                 return true;
             });
+        //range по стоку и цену
+        if (hashParametr['stock']) {
+            const minMax = hashParametr['stock'].split('|').map((item) => Number(item));
+            obj = obj.filter((item) => item.stock > minMax[0] && item.stock < minMax[1]);
+        }
+        if (hashParametr['price']) {
+            const minMax = hashParametr['price'].split('|').map((item) => Number(item));
+            obj = obj.filter((item) => item.price > minMax[0] && item.price < minMax[1]);
+        }
 
         //количество товаров в по каждой категории в фильтрах
         const filtersCountProduct = Filter.arrCategories(obj);
