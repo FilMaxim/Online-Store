@@ -1,7 +1,7 @@
 import Component from '../../templates/components';
 import { PageIds } from '../../../pages/app';
 import CartInfo from './cart';
-import Search from './search';
+import Search from '../main/search';
 
 class Header extends Component {
     constructor(tagName: string, className: string) {
@@ -14,8 +14,6 @@ class Header extends Component {
         </a>
    `;
         const cartInfo: CartInfo = new CartInfo('div', 'header__cart cart-info');
-        const searchInput: Search = new Search('input', 'header__search search', 'Search product');
-        this.container.append(searchInput.render());
         this.container.append(cartInfo.render());
     }
 
