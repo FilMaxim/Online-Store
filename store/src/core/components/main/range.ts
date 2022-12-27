@@ -8,8 +8,15 @@ export default class Range extends Component {
         return res;
     }
     static minMaxObj(obj: Product[], typeProduct: 'price' | 'stock') {
-        const res = Range.sortObj(obj, typeProduct);
-        return { min: res[0][typeProduct], max: res[res.length - 1][typeProduct] };
+        const url = new URL(window.location.href.replace('#', ''));
+        const search = url.searchParams.get(typeProduct);
+        if (search) {
+            const minMax = search.split('|').map((item) => Number(item));
+            return { min: minMax[0], max: minMax[1] };
+        } else {
+            const res = Range.sortObj(obj, typeProduct);
+            return { min: res[0][typeProduct], max: res[res.length - 1][typeProduct] };
+        }
     }
 
     rangeType: 'price' | 'stock';
