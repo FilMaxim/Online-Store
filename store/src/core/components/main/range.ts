@@ -1,7 +1,7 @@
 import Component from '../../templates/components';
 import { Product } from '../../../types';
 import { obj as objProduct } from '../../../pages/main';
-import { sort } from 'semver';
+
 export default class Range extends Component {
     static sortObj(obj: Product[], typeProduct: 'price' | 'stock') {
         const res = obj.sort((a, b) => (a[typeProduct] > b[typeProduct] ? 1 : -1));

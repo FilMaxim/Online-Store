@@ -1,7 +1,6 @@
 import Component from '../../templates/components';
 import { PageIds } from '../../../pages/app';
 import CartInfo from './cart';
-import Search from '../main/search';
 
 class Header extends Component {
     constructor(tagName: string, className: string) {

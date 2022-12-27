@@ -3,6 +3,7 @@ import Page from '../../core/templates/page';
 import Card from '../../core/components/main/card';
 import Filter from '../../core/components/main/filter';
 import Range from '../../core/components/main/range';
+import SortSelect from '../../core/components/main/sortSelect';
 
 import { IUrlHashParametr } from '../../types';
 
@@ -53,8 +54,12 @@ class MainPage extends Page {
         const filtersCountProduct = Filter.arrCategories(obj);
         Filter.filterCount(filtersCountProduct, 'brand');
         Filter.filterCount(filtersCountProduct, 'category');
+        //добавить сюда поиск и тотал
 
-        //добавить сюда сортировку и два ренжа
+        //добавить сюда сортировку
+        if (hashParametr['sort']) {
+            obj = SortSelect.sortObj(obj, hashParametr['sort'].split('-'));
+        }
 
         const areaCards = document.querySelector('.products-items');
 
@@ -94,6 +99,10 @@ class MainPage extends Page {
         const sortProducts = document.createElement('div');
         sortProducts.classList.add('sort-products');
         products.append(sortProducts);
+
+        //сортировка,тотал,поиск,вид
+        const sort = new SortSelect('select', 'sort__select');
+        sortProducts.append(sort.render());
 
         appStorePage.append(filter);
         appStorePage.append(products);

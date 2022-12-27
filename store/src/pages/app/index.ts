@@ -23,7 +23,8 @@ class App {
             regExpCategory[0] === '?category' ||
             regExpCategory[0] === '?brand' ||
             regExpCategory[0] === '?stock' ||
-            regExpCategory[0] === '?price'
+            regExpCategory[0] === '?price' ||
+            regExpCategory[0] === '?sort'
         );
     }
 
