@@ -9,6 +9,8 @@ import SearchInput from '../../core/components/main/search/inputText';
 import SearchClose from '../../core/components/main/search/inputBtn';
 import ViewCards from '../../core/components/main/viewsCards/viewsCard';
 import ItemView from '../../core/components/main/viewsCards/itemView';
+import BtnsReset from '../../core/components/main/btnsFilter/reset';
+import BtnsCopy from '../../core/components/main/btnsFilter/copy';
 
 import { IUrlHashParametr } from '../../types';
 
@@ -112,6 +114,13 @@ class MainPage extends Page {
 
         const filter = document.createElement('div');
         filter.classList.add('filter');
+
+        const filterBtns = document.createElement('div');
+        filterBtns.classList.add('filter__btns');
+        filterBtns.append(new BtnsReset('button', 'filter__btn btn').render());
+        filterBtns.append(new BtnsCopy('button', 'filter__btn btn').render());
+        filter.append(filterBtns);
+
         filter.append(new Filter('div', 'filterBlock category', 'category').render());
         filter.append(new Filter('div', 'filterBlock brand', 'brand').render());
 

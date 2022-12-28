@@ -136,6 +136,17 @@ input {
 .sort-products{
     padding: 10px;
 }
+.filter__btns{
+    display: flex;
+    justify-content: space-evenly;
+}
+.filter__btn{
+    flex:0 1 40%;
+    text-align: center;
+    margin-bottom: 20px;
+    align-items:center;
+    justify-content: center;
+}
 /*=====RANGE=========*/
 section.range-slider {
     position: relative;
