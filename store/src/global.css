@@ -41,6 +41,12 @@
 .btn-desc::before {
     content: url('./assets/icons/desc.svg');
 }
+.btn-drop{
+    background-color: var(--text-color);
+}
+.btn-drop::before {
+    content: url('./assets/icons/drop.svg');
+}
 .btn:hover {
     background-color: var(--btn-bg-color-hover);
 }

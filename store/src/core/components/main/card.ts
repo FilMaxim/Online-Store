@@ -1,11 +1,21 @@
 import Component from '../../templates/components';
 import { Product } from '../../../types';
+import BtnAddCart from './btnAddCart';
 
 export default class Card extends Component {
     product: Product;
+    btnAdd: HTMLButtonElement;
     constructor(tagName: string, className: string, product: Product) {
         super(tagName, className);
         this.product = product;
+        this.btnAdd = new BtnAddCart(
+            'button',
+            'card__btn btn btn-cart',
+            'Add',
+            'Drop',
+            product.id,
+            product.price
+        ).render() as HTMLButtonElement;
     }
     renderCard(product: Product) {
         const itemWrapper = document.createElement('div');
@@ -44,21 +54,17 @@ export default class Card extends Component {
         const btns = document.createElement('div');
         btns.classList.add('card__btns');
 
-        for (let index = 0; index < 2; index++) {
-            const element = document.createElement('button');
-            element.className = 'card__btn btn';
-            if (index === 0) {
-                element.textContent = 'Add';
-                element.classList.add('btn-cart');
-            } else {
-                element.textContent = 'Desc';
-                element.classList.add('btn-desc');
-            }
-            btns.append(element);
-        }
+        const element = document.createElement('button');
+        element.className = 'card__btn btn btn-desc';
+        element.textContent = 'Desc';
+
+        btns.append(this.btnAdd);
+
+        btns.append(element);
 
         itemWrapper.append(btns);
         this.container.setAttribute('id', String(product.id));
+        this.container.setAttribute('price', String(product.price));
 
         this.container.append(itemWrapper);
     }
