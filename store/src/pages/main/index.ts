@@ -4,6 +4,9 @@ import Card from '../../core/components/main/card';
 import Filter from '../../core/components/main/filter';
 import Range from '../../core/components/main/range';
 import SortSelect from '../../core/components/main/sortSelect';
+import Search from '../../core/components/main/search/search';
+import SearchInput from '../../core/components/main/search/inputText';
+import SearchClose from '../../core/components/main/search/inputBtn';
 
 import { IUrlHashParametr } from '../../types';
 
@@ -55,6 +58,20 @@ class MainPage extends Page {
         Filter.filterCount(filtersCountProduct, 'brand');
         Filter.filterCount(filtersCountProduct, 'category');
         //добавить сюда поиск и тотал
+        if (hashParametr['search']) {
+            const val = new RegExp(hashParametr['search'], 'gi');
+            obj = obj.filter(
+                (item) =>
+                    val.test(item.brand) ||
+                    val.test(item.title) ||
+                    val.test(item.category) ||
+                    val.test(item.description) ||
+                    val.test(String(item.discountPercentage)) ||
+                    val.test(String(item.price)) ||
+                    val.test(String(item.rating)) ||
+                    val.test(String(item.stock))
+            );
+        }
 
         //добавить сюда сортировку
         if (hashParametr['sort']) {
@@ -103,6 +120,17 @@ class MainPage extends Page {
         //сортировка,тотал,поиск,вид
         const sort = new SortSelect('select', 'sort__select');
         sortProducts.append(sort.render());
+
+        const inputSearch = new SearchInput('input', 'search__text');
+        const inputClose = new SearchClose('input', 'search__close');
+
+        const searchArea = new Search(
+            'form',
+            'sort__search',
+            inputSearch.render() as HTMLInputElement,
+            inputClose.render() as HTMLInputElement
+        );
+        sortProducts.append(searchArea.render());
 
         appStorePage.append(filter);
         appStorePage.append(products);
