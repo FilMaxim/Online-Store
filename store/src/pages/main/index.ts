@@ -7,6 +7,8 @@ import SortSelect from '../../core/components/main/sortSelect';
 import Search from '../../core/components/main/search/search';
 import SearchInput from '../../core/components/main/search/inputText';
 import SearchClose from '../../core/components/main/search/inputBtn';
+import ViewCards from '../../core/components/main/viewsCards/viewsCard';
+import ItemView from '../../core/components/main/viewsCards/itemView';
 
 import { IUrlHashParametr } from '../../types';
 
@@ -77,10 +79,16 @@ class MainPage extends Page {
         if (hashParametr['sort']) {
             obj = SortSelect.sortObj(obj, hashParametr['sort'].split('-'));
         }
+        const total = document.querySelector('.sort__total');
+        if (total) total.innerHTML = `Found: ${obj.length}`;
 
         const areaCards = document.querySelector('.products-items');
 
         if (areaCards) {
+            if (hashParametr['view']) {
+                if (hashParametr['view'] === 'small') areaCards.classList.add('small-view');
+                else areaCards.classList.remove('small-view');
+            } else areaCards.classList.remove('small-view');
             areaCards.textContent = '';
             if (obj.length === 0) areaCards.textContent = 'Не найдено соответствующих товаров';
             else
@@ -117,10 +125,16 @@ class MainPage extends Page {
         sortProducts.classList.add('sort-products');
         products.append(sortProducts);
 
-        //сортировка,тотал,поиск,вид
+        //сортировка,тотал
         const sort = new SortSelect('select', 'sort__select');
         sortProducts.append(sort.render());
 
+        const total = document.createElement('span');
+        total.classList.add('sort__total');
+        total.innerHTML = `Found: ${obj.length}`;
+        sortProducts.append(total);
+
+        //поиск
         const inputSearch = new SearchInput('input', 'search__text');
         const inputClose = new SearchClose('input', 'search__close');
 
@@ -131,6 +145,12 @@ class MainPage extends Page {
             inputClose.render() as HTMLInputElement
         );
         sortProducts.append(searchArea.render());
+
+        //внешний вид
+        const viewBig = new ItemView('div', 'big view-item view__big', 4);
+        const viewSmall = new ItemView('div', 'small view-item view__small', 6);
+        const views = new ViewCards('div', 'sort__views views', viewBig.render(), viewSmall.render());
+        sortProducts.append(views.render());
 
         appStorePage.append(filter);
         appStorePage.append(products);

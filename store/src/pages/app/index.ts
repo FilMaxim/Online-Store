@@ -25,7 +25,8 @@ class App {
             regExpCategory[0] === '?stock' ||
             regExpCategory[0] === '?price' ||
             regExpCategory[0] === '?sort' ||
-            regExpCategory[0] === '?search'
+            regExpCategory[0] === '?search' ||
+            regExpCategory[0] === '?view'
         );
     }
 

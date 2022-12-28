@@ -294,3 +294,66 @@ section.range-slider {
         border:none;
         background:url('../../assets/icons/close.svg') no-repeat;
     }
+
+    /* маленький вид карточек */
+
+    .products-items.small-view{
+        row-gap: 10px;
+        column-gap: 21px;
+    }
+
+    .small-view .prod-elem{
+        flex: 0 1 15%;
+        margin: 0px;
+        padding-top: 10%;
+    }
+    .small-view .item-title{
+        font-size: 12px;
+    }
+    .small-view .item-info{
+        display: none;
+    }
+    .small-view .card__btns{
+        margin-top: 50px;
+        justify-content: space-evenly;
+    }
+    .small-view .card__btn{
+        padding: 7px;
+    }
+
+    /*иконки внешнего вида карточек*/
+    .views{
+        display: flex;
+        gap: 5px;
+    }
+    .view-item{
+        border:2px solid var(--btn-bg-color);
+        border-radius:5px;
+        padding: 2px;
+        cursor: pointer;
+    }
+    .view__big{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        grid-gap:4px;
+    }
+    .view__big .view__column{
+        width: 7px;
+        height: 7px;
+        background:var(--btn-bg-color-hover);
+        box-shadow: 0 0 3px 1px var(--btn-bg-color);
+        border-radius:50%;
+    }
+    .view__small{
+        display: grid;
+        grid-template-columns: repeat(6,1fr);
+        grid-gap:2px;
+    }
+    .view__small .view__column{
+        width: 5px;
+        height: 5px;
+        background:var(--btn-bg-color-hover);
+        box-shadow: 0 0 3px 1px var(--btn-bg-color);
+        border-radius:50%;
+    }
+    
