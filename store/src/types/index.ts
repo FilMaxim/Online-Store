@@ -35,3 +35,9 @@ export interface IParametrs {
     price: number[];
     stok: number[];
 }
+//тип для корзины в localStorage
+export interface typeCart {
+    id: number;
+    count: number;
+    price: number;
+}

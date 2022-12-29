@@ -4,6 +4,7 @@ import CartPage from '../cart/index';
 import DescriptionPage from '../description/index';
 import Header from '../../core/components/header/index';
 import ErrorPage, { ErrorTypes } from '../error/index';
+import CartInfo from '../../core/components/header/cart';
 
 export const enum PageIds {
     MainPage = 'main-page',
@@ -73,6 +74,7 @@ class App {
 
     run() {
         App.container.append(this.header.render());
+        CartInfo.changeLocal();
 
         if (window.location.hash === '') window.location.hash = 'main-page';
         else App.renderNewPage(window.location.hash.slice(1));

@@ -3,8 +3,10 @@ import { PageIds } from '../../../pages/app';
 import CartInfo from './cart';
 
 class Header extends Component {
+    cartInfo: CartInfo;
     constructor(tagName: string, className: string) {
         super(tagName, className);
+        this.cartInfo = new CartInfo('div', 'header__cart cart-info');
     }
 
     renderPageHeader() {
@@ -12,12 +14,12 @@ class Header extends Component {
         <img src="./assets/img/logo.png" alt="logo" class="logo__img">
         </a>
    `;
-        const cartInfo: CartInfo = new CartInfo('div', 'header__cart cart-info');
-        this.container.append(cartInfo.render());
+        this.container.append(this.cartInfo.render());
     }
 
     render() {
         this.renderPageHeader();
+
         return this.container;
     }
 }

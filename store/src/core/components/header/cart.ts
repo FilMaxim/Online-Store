@@ -1,5 +1,6 @@
 import Component from '../../templates/components';
 import { PageIds } from '../../../pages/app';
+import { typeCart } from '../../../types';
 
 export default class CartInfo extends Component {
     total: number;
@@ -8,6 +9,30 @@ export default class CartInfo extends Component {
         super(tagName, className);
         this.total = 2748.1;
         this.count = 2;
+    }
+    static changeLocal() {
+        const cartValues = localStorage.getItem('cart');
+        if (!cartValues) return;
+        const total = document.querySelector('.cart-info__total');
+        const count = document.querySelector('.cart-info__btn span') as HTMLElement;
+
+        let cartCount = 0;
+        let cartTotal = 0;
+
+        const arrObj: typeCart[] = JSON.parse(cartValues);
+        arrObj.forEach((item) => {
+            cartCount += item.count;
+            cartTotal += item.count * item.price;
+        });
+        if (total) total.textContent = `€ ${cartTotal}`;
+        if (count) {
+            if (cartCount > 0) {
+                count.textContent = String(cartCount);
+                count.style.display = 'flex';
+            } else {
+                count.style.display = 'none';
+            }
+        }
     }
     renderCartInfo() {
         const newTotal = document.createElement('span');

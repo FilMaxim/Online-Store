@@ -1,9 +1,6 @@
 import Component from '../../templates/components';
-interface typeCart {
-    id: number;
-    count: number;
-    price: number;
-}
+import { typeCart } from '../../../types';
+import CartInfo from '../header/cart';
 export default class BtnAddCart extends Component {
     id: number;
     price: number;
@@ -29,6 +26,7 @@ export default class BtnAddCart extends Component {
     addCart() {
         const obj = { id: this.id, count: 1, price: this.price };
         const cartValues = localStorage.getItem('cart');
+
         if (!cartValues) {
             localStorage.setItem('cart', JSON.stringify([obj]));
             this.container.textContent = this.textDrop;
@@ -48,6 +46,7 @@ export default class BtnAddCart extends Component {
                 this.container.classList.add('btn-drop');
             }
         }
+        CartInfo.changeLocal();
     }
 
     render(): HTMLElement {
