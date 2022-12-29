@@ -52,15 +52,12 @@ class DescriptionPage extends Page {
         productPhotos.classList.add('product-photos');
         const slider = document.createElement('div');
         slider.classList.add('slider');
-        let mainFoto = objElement.images[0];
         objElement.images.forEach((el) => {
             const img = document.createElement('img');
             img.classList.add('img-slide');
             img.src = el;
             img.alt = 'Slide';
             img.addEventListener('click', () => {
-                mainFoto = el;
-                console.log(mainFoto);
                 imgGrand.src = el;
             });
             slider.append(img);
