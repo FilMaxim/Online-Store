@@ -1,26 +1,105 @@
 import './main.css';
 import Page from '../../core/templates/page';
-import * as obj from './products.json';
+import Card from '../../core/components/main/card';
+import Filter from '../../core/components/main/filter';
+import Range from '../../core/components/main/range';
+import SortSelect from '../../core/components/main/sortSelect';
+import Search from '../../core/components/main/search/search';
+import SearchInput from '../../core/components/main/search/inputText';
+import SearchClose from '../../core/components/main/search/inputBtn';
+import ViewCards from '../../core/components/main/viewsCards/viewsCard';
+import ItemView from '../../core/components/main/viewsCards/itemView';
+import BtnsReset from '../../core/components/main/btnsFilter/reset';
+import BtnsCopy from '../../core/components/main/btnsFilter/copy';
 
-interface Product {
-    brand: string;
-    category: string;
-    description: string;
-    discountPercentage: number;
-    id: number;
-    images: string[];
-    price: number;
-    rating: number;
-    stock: number;
-    textContent?: string;
-    thumbnail: string;
-    title: string;
-}
+import { IUrlHashParametr } from '../../types';
+
+import * as objProducts from './products.json';
+
+export const obj = objProducts.products;
 
 class MainPage extends Page {
     static TextObject = {
         MainTitle: 'Страница товаров с фильтрами',
     };
+
+    //метод который по хешу ищет товары и рендерит их на страницу
+    static searchProductsHash() {
+        let obj = objProducts.products;
+        const url = new URL(window.location.href.replace('#', ''));
+        const hashParametr: IUrlHashParametr = {};
+
+        //перебираем все параметры, что есть в юрл
+        url.searchParams.forEach((item, index) => {
+            hashParametr[index] = item;
+        });
+
+        //фильтры по категориям
+        if (hashParametr['category']) {
+            obj = obj.filter((item) => {
+                if (hashParametr.category.indexOf(item.category) === -1) return false;
+                return true;
+            });
+        }
+        //фильтры по бренду
+        if (hashParametr['brand'])
+            obj = obj.filter((item) => {
+                if (hashParametr.brand.indexOf(item.brand) === -1) return false;
+                return true;
+            });
+        //range по стоку и цену
+        if (hashParametr['stock']) {
+            const minMax = hashParametr['stock'].split('|').map((item) => Number(item));
+            obj = obj.filter((item) => item.stock > minMax[0] && item.stock < minMax[1]);
+        }
+        if (hashParametr['price']) {
+            const minMax = hashParametr['price'].split('|').map((item) => Number(item));
+            obj = obj.filter((item) => item.price > minMax[0] && item.price < minMax[1]);
+        }
+
+        //количество товаров в по каждой категории в фильтрах
+        const filtersCountProduct = Filter.arrCategories(obj);
+        Filter.filterCount(filtersCountProduct, 'brand');
+        Filter.filterCount(filtersCountProduct, 'category');
+        //добавить сюда поиск и тотал
+        if (hashParametr['search']) {
+            const val = new RegExp(hashParametr['search'], 'gi');
+            obj = obj.filter(
+                (item) =>
+                    val.test(item.brand) ||
+                    val.test(item.title) ||
+                    val.test(item.category) ||
+                    val.test(item.description) ||
+                    val.test(String(item.discountPercentage)) ||
+                    val.test(String(item.price)) ||
+                    val.test(String(item.rating)) ||
+                    val.test(String(item.stock))
+            );
+        }
+
+        //добавить сюда сортировку
+        if (hashParametr['sort']) {
+            obj = SortSelect.sortObj(obj, hashParametr['sort'].split('-'));
+        }
+        const total = document.querySelector('.sort__total');
+        if (total) total.innerHTML = `Found: ${obj.length}`;
+
+        const areaCards = document.querySelector('.products-items');
+
+        if (areaCards) {
+            if (hashParametr['view']) {
+                if (hashParametr['view'] === 'small') areaCards.classList.add('small-view');
+                else areaCards.classList.remove('small-view');
+            } else areaCards.classList.remove('small-view');
+            areaCards.textContent = '';
+            if (obj.length === 0) areaCards.textContent = 'Не найдено соответствующих товаров';
+            else
+                obj.forEach((item) => {
+                    const card = new Card('li', 'prod-elem', item);
+                    areaCards.append(card.render());
+                });
+        }
+    }
 
     constructor(id: string) {
         super(id);
@@ -35,8 +114,18 @@ class MainPage extends Page {
 
         const filter = document.createElement('div');
         filter.classList.add('filter');
-        filter.append(this.createFilter('category'));
-        filter.append(this.createFilter('brand'));
+
+        const filterBtns = document.createElement('div');
+        filterBtns.classList.add('filter__btns');
+        filterBtns.append(new BtnsReset('button', 'filter__btn btn').render());
+        filterBtns.append(new BtnsCopy('button', 'filter__btn btn').render());
+        filter.append(filterBtns);
+
+        filter.append(new Filter('div', 'filterBlock category', 'category').render());
+        filter.append(new Filter('div', 'filterBlock brand', 'brand').render());
+
+        filter.append(new Range('div', 'filterBlock range', 'price').render());
+        filter.append(new Range('div', 'filterBlock range', 'stock').render());
 
         const products = document.createElement('div');
         products.classList.add('products');
@@ -45,116 +134,48 @@ class MainPage extends Page {
         sortProducts.classList.add('sort-products');
         products.append(sortProducts);
 
+        //сортировка,тотал
+        const sort = new SortSelect('select', 'sort__select');
+        sortProducts.append(sort.render());
+
+        const total = document.createElement('span');
+        total.classList.add('sort__total');
+        total.innerHTML = `Found: ${obj.length}`;
+        sortProducts.append(total);
+
+        //поиск
+        const inputSearch = new SearchInput('input', 'search__text');
+        const inputClose = new SearchClose('input', 'search__close');
+
+        const searchArea = new Search(
+            'form',
+            'sort__search',
+            inputSearch.render() as HTMLInputElement,
+            inputClose.render() as HTMLInputElement
+        );
+        sortProducts.append(searchArea.render());
+
+        //внешний вид
+        const viewBig = new ItemView('div', 'big view-item view__big', 4);
+        const viewSmall = new ItemView('div', 'small view-item view__small', 6);
+        const views = new ViewCards('div', 'sort__views views', viewBig.render(), viewSmall.render());
+        sortProducts.append(views.render());
+
         appStorePage.append(filter);
         appStorePage.append(products);
 
-        products.append(this.createListProduct());
+        const mainAreaCards = document.createElement('ul');
+        mainAreaCards.classList.add('products-items');
+
+        products.append(mainAreaCards);
         return main;
-    }
-
-    createListProduct() {
-        const productsUl = document.createElement('ul');
-        productsUl.classList.add('products-items');
-
-        const createProduct = (product: Product) => {
-            const productLi = document.createElement('li');
-            productLi.classList.add('prod-elem');
-
-            const itemWrapper = document.createElement('div');
-            itemWrapper.classList.add('item-wrapper');
-            itemWrapper.style.backgroundImage = `url(${product.thumbnail})`;
-
-            const title = document.createElement('div');
-            title.classList.add('item-title');
-            title.textContent = product.title;
-            itemWrapper.append(title);
-
-            const info = document.createElement('div');
-            info.classList.add('item-info');
-            itemWrapper.append(info);
-
-            const itemInfo = document.createElement('div');
-            itemInfo.classList.add('item-info-item');
-            info.append(itemInfo);
-
-            const properItemArr = [
-                `Caregory: ${product.category}`,
-                `Brand: ${product.brand}`,
-                `Price: €${product.price}`,
-                `Discount: ${product.discountPercentage}%`,
-                `Rating: ${product.rating}`,
-                `Stock: ${product.stock}`,
-            ];
-
-            properItemArr.forEach((elem) => {
-                const pProp = document.createElement('p');
-                pProp.classList.add('ngcontent');
-                pProp.textContent = elem;
-                itemInfo.append(pProp);
-            });
-
-            productLi.append(itemWrapper);
-
-            return productLi;
-        };
-
-        obj.products.forEach((el) => {
-            productsUl.append(createProduct(el));
-        });
-
-        return productsUl;
-    }
-
-    //массив для фильтра;
-    arrCategories = function (key: 'category' | 'brand') {
-        const arr: string[] = [];
-        obj.products.forEach((el) => {
-            if (arr.indexOf(el[key]) === -1) {
-                arr.push(el[key]);
-            }
-        });
-        return arr;
-    };
-
-    createFilter(filterBlock: 'category' | 'brand') {
-        const category = document.createElement('div');
-        category.classList.add('filterBlock');
-
-        const categoryH1 = document.createElement('h3');
-        categoryH1.textContent = filterBlock;
-        category.append(categoryH1);
-
-        const filterList = document.createElement('div');
-        filterList.classList.add('filter-list');
-        category.append(filterList);
-        // arrCategory - массив для category
-        const arrCategory = this.arrCategories(filterBlock);
-        console.log(arrCategory);
-
-        arrCategory.forEach((el) => {
-            const checkboxLine = document.createElement('div');
-            checkboxLine.classList.add('checkbox-line');
-
-            const imputCategory = document.createElement('input');
-            imputCategory.type = 'checkbox';
-            imputCategory.id = el;
-            const labelCategory = document.createElement('label');
-            labelCategory.htmlFor = el;
-            labelCategory.textContent = el;
-
-            checkboxLine.append(imputCategory);
-            checkboxLine.append(labelCategory);
-            filterList.append(checkboxLine);
-        });
-
-        return category;
     }
 
     render() {
         const title = this.createHeaderTitle(MainPage.TextObject.MainTitle);
         this.container.append(title);
+
         this.container.append(this.createMainPage());
-        console.log(obj.products);
 
         return this.container;
     }

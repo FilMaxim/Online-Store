@@ -52,3 +52,6 @@
     right: -15px;
 
 }
+.cart-info__btn span{
+    display: none;
+}

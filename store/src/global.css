@@ -7,14 +7,14 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     font-size: calc(.2rem + 1vw);
-    color: orange;
+ 
     word-wrap: break-word;
 
 }
 
 :root {
-    --btn-bg-color: #1890FF;
-    --btn-bg-color-hover: #5aaffe;
+    --btn-bg-color: #402900;
+    --btn-bg-color-hover: #805300;
     --btn-font-color: #FFFFFF;
     --font-color: #000;
     --text-color: #8C8C8C;
@@ -35,10 +35,34 @@
     text-decoration: none;
 }
 
-.btn::before {
+.btn-cart::before {
     content: url('./assets/icons/cart-w.svg');
 }
-
+.btn-desc::before {
+    content: url('./assets/icons/desc.svg');
+}
+.btn-drop{
+    background-color: var(--text-color);
+}
+.btn-drop::before {
+    content: url('./assets/icons/drop.svg');
+}
 .btn:hover {
     background-color: var(--btn-bg-color-hover);
+}
+
+::-webkit-scrollbar {
+    width: 5px; 
+    height: 3px; 
+    background-color: var(--btn-bg-color-hover);
+}
+
+/* ползунок скроллбара */
+::-webkit-scrollbar-thumb {
+    border-radius: 9em;
+    box-shadow: inset 1px 1px 10px #f3faf7;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #253861;
 }
