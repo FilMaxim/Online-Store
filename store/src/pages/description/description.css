@@ -1,0 +1,134 @@
+.details {
+    min-height: 85vh;
+    width: 100%;
+    padding: 2%;
+    display: flex;
+    justify-content: center;
+    background-color: #BFBFBF;
+}
+
+.details-page {
+    width: 80%;
+    height: fit-content;
+}
+
+.link-navigator {
+    margin: 3% auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+.product-detail {
+    width: 100%;
+    border: 2px solid orange;
+    border-radius: 1rem;
+    background: rgba(24,26,28,.5);
+    overflow: hidden;
+}
+
+.product-title {
+    width: 100%;
+    text-align: center;
+    background: #181a1c;
+    border-bottom: 1px solid orange;
+    color: orange;
+}
+
+.product-data {
+    display: flex;
+    width: 100%;
+    padding: .5%;
+}
+
+.product-photos {
+    width: 40%;
+    display: flex;
+}
+
+.product-info {
+    width: 40%;
+}
+
+.add-to-card {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.slider {
+    width: 25%;
+}
+
+.img-slide {
+    width: 90%;
+    border: 1px solid orange;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.img-slide:hover {
+    position: relative;
+    z-index: 100;
+    border: 3px solid rgb(255, 0, 0);
+    scale: 1.2;
+}
+
+.grand-photo {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-grand-slide {
+    max-height: 40vh;
+    width: auto;
+    max-width: 100%;
+    border: 1px solid orange;
+    border-radius: 0.5rem;
+}
+
+
+.product-detail-item {
+    margin: 1% auto;
+    border: 1px solid orange;
+    border-radius: 0.3rem;
+    overflow: hidden;
+    text-align: center;
+}
+
+.product-detail-item h3 {
+    text-align: center;
+    background-color: #181a1c;
+    padding: .7%;
+}
+
+.product-detail-item p {
+    padding: .7%;
+    color: wheat;
+}
+
+.cart-button {
+    width: 90%;
+    font-size: 200%;
+    color: wheat;
+    text-shadow: 0 0 10px rgb(184 24 24), 0 0 20px red, 0 0 30px red, 0 0 40px red;
+}
+
+.cart-button button {
+    font-size: 40%;
+    display: block;
+    padding: 7% 0;
+    background: #9a3535;
+    color: wheat;
+    border: 2px solid orange;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    width: 100%;
+    margin: 1rem auto;
+}
