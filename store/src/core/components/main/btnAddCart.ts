@@ -8,8 +8,6 @@ export default class BtnAddCart extends Component {
     textAdd: string;
     static searchIndex(id: number) {
         const cartValues = localStorage.getItem('cart');
-        console.log(cartValues);
-
         if (!cartValues) return -1;
         const arrObj: typeCart[] = JSON.parse(cartValues);
         return arrObj.findIndex((item) => item.id === id);
