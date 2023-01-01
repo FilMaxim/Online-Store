@@ -1,6 +1,7 @@
 import './cart.css';
 import Page from '../../core/templates/page';
 import OneElementCart from '../../core/components/cart/oneElementCart';
+import Promokod from '../../core/components/cart/promokod/promokod';
 import * as objProducts from '../main/products.json';
 import { typeCart } from '../../types/index';
 import { Product } from '../../types/index';
@@ -70,8 +71,7 @@ class CartPage extends Page {
         productInCart.append(titleAndPageControl);
         productInCart.append(prodItems);
 
-        const totalCart = document.createElement('div');
-        totalCart.classList.add('total-cart');
+        const totalCart = new Promokod('div', 'total-cart').render();
 
         cartWrapper.append(productInCart);
         cartWrapper.append(totalCart);
