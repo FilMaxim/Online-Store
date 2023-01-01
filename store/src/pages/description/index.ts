@@ -2,6 +2,7 @@ import './description.css';
 import Page from '../../core/templates/page';
 import * as objProducts from '../main/products.json';
 import { Product } from '../../types/index';
+import BtnAddCart from '../../core/components/main/btnAddCart';
 class DescriptionPage extends Page {
     static TextObject = {
         MainTitle: 'Страница с описанием товара',
@@ -96,12 +97,12 @@ class DescriptionPage extends Page {
         const cartButton = document.createElement('div');
         cartButton.classList.add('cart-button');
         cartButton.innerHTML = '€' + String(objElement.price);
-        const arrButton = ['add to cart', 'buy now'];
-        arrButton.forEach((el) => {
-            const btn = document.createElement('button');
-            btn.innerHTML = el;
-            cartButton.append(btn);
-        });
+
+        const addCartBtn = new BtnAddCart('button', '', 'add to cart', 'drop to cart', objElement.id, objElement.price);
+        cartButton.append(addCartBtn.render());
+        const btn = document.createElement('button');
+        btn.innerHTML = 'buy now';
+        cartButton.append(btn);
 
         addToCard.append(cartButton);
 
