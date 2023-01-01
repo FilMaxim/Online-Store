@@ -1,6 +1,6 @@
 import Component from '../../templates/components';
 import { PageIds } from '../../../pages/app';
-import { typeCart } from '../../../types';
+import { TypeCart } from '../../../types';
 
 export default class CartInfo extends Component {
     total: number;
@@ -19,7 +19,7 @@ export default class CartInfo extends Component {
         let cartCount = 0;
         let cartTotal = 0;
 
-        const arrObj: typeCart[] = JSON.parse(cartValues);
+        const arrObj: TypeCart[] = JSON.parse(cartValues);
         arrObj.forEach((item) => {
             cartCount += item.count;
             cartTotal += item.count * item.price;
@@ -33,6 +33,7 @@ export default class CartInfo extends Component {
                 count.style.display = 'none';
             }
         }
+        return [cartCount, cartTotal];
     }
     renderCartInfo() {
         const newTotal = document.createElement('span');
