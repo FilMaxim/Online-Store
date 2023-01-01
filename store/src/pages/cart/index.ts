@@ -3,16 +3,18 @@ import Page from '../../core/templates/page';
 import OneElementCart from '../../core/components/cart/oneElementCart';
 import Promokod from '../../core/components/cart/promokod/promokod';
 import * as objProducts from '../main/products.json';
-import { typeCart } from '../../types/index';
+import { TypeCart } from '../../types/index';
 import { Product } from '../../types/index';
 
 class CartPage extends Page {
     static TextObject = {
         MainTitle: 'Страница корзины товаров',
     };
+    promokod: Promokod;
 
     constructor(id: string) {
         super(id);
+        this.promokod = new Promokod('div', 'total-cart promo');
     }
 
     createCartPage() {
@@ -71,10 +73,8 @@ class CartPage extends Page {
         productInCart.append(titleAndPageControl);
         productInCart.append(prodItems);
 
-        const totalCart = new Promokod('div', 'total-cart').render();
-
         cartWrapper.append(productInCart);
-        cartWrapper.append(totalCart);
+        cartWrapper.append(this.promokod.render());
         cartPage.append(cartWrapper);
         main.append(cartPage);
 
@@ -83,7 +83,7 @@ class CartPage extends Page {
         const arrCart: Product[] = [];
         if (data && data !== null) {
             const dataObj = JSON.parse(data);
-            dataObj.forEach((el: typeCart) => {
+            dataObj.forEach((el: TypeCart) => {
                 const a = objProducts.products.find((e) => el.id === e.id);
                 if (a) return arrCart.push(a);
             });
