@@ -10,7 +10,6 @@ export default class ViewCards extends Component {
     }
     setHash(e: Event) {
         const target = e.target as Element;
-        console.log(target, target.closest('.view-item'));
 
         if (!target.closest('.view-item')) return;
         const url = new URL(window.location.href.replace('#', ''));

@@ -30,7 +30,6 @@ class DescriptionPage extends Page {
             const p = document.createElement('p');
             p.innerHTML = element;
             navigator.append(p);
-            console.log(index);
             if (index !== 3) {
                 navigator.innerHTML += ' >> ';
             }
