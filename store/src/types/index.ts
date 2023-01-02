@@ -41,3 +41,10 @@ export interface TypeCart {
     count: number;
     price: number;
 }
+
+//тип для промокода
+export interface IPromo {
+    id: string;
+    text: string;
+    proc: number;
+}

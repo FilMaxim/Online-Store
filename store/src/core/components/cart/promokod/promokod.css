@@ -36,7 +36,7 @@ div.promo {
 .promo__total {
 }
 .promo__discount {
-    display: none;
+    
 }
 .promo__cods {
     align-self: stretch;
@@ -81,15 +81,24 @@ div.promo {
     border-radius:0.5rem;
     padding: 20px;
     border: 1px solid orange;
+    box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.5);
     background: transparent;
 }
 .promo__input::placeholder{
     color:#444;
 }
+.promo__input:focus{
+    border:none;
+    outline: none;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    background:transparent;
+
+}
 .promo__help {
 }
 .promo__desc{
     display: flex;
+    display: none;
     align-items: center;
     justify-content: space-between;
     color: wheat;
