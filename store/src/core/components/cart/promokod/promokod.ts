@@ -19,26 +19,60 @@ export default class Promokod extends Component {
 
         this.count = document.createElement('span');
         this.total = document.createElement('span');
+        this.discount = document.createElement('span');
         this.cods = document.createElement('div');
         this.input = document.createElement('input');
         this.desc = document.createElement('div');
 
         this.buyBtn = document.createElement('button');
-
-        this.discount = document.createElement('span');
     }
+
+    //метод для перерисовки промокода
     changeInfo() {
         const infoLocal = CartInfo.changeLocal();
+        this.input.value = '';
         if (infoLocal) {
             this.count.textContent = String(infoLocal[0]);
-            this.total.textContent = '€' + String(infoLocal[1]);
+            this.total.textContent = '€' + String(infoLocal[1].toFixed(2));
         }
         const memory = localStorage.getItem('promo');
-        let localPromo: IPromo[];
-        if (!memory) {
+        const parentDiscount = this.discount.parentNode as HTMLElement;
+        const parentTotal = this.total.parentNode as HTMLElement;
+        let localPromo: IPromo[] = [];
+        if (memory) localPromo = JSON.parse(memory);
+        if (!memory || localPromo.length === 0) {
+            this.cods.innerHTML = '<div class="cods__title">Applied codes</div>';
             this.cods.style.display = 'none';
-            const parentDiscount = this.discount.parentNode as HTMLElement;
+            if (parentTotal) parentTotal.classList.remove('delete');
+
             if (parentDiscount) parentDiscount.style.display = 'none';
+        } else {
+            this.cods.style.display = 'block';
+            if (parentDiscount) parentDiscount.style.display = 'flex';
+            if (parentTotal) parentTotal.classList.add('delete');
+
+            const discountProcent = localPromo.reduce((prev, next) => prev + next.proc, 0);
+
+            if (infoLocal) {
+                this.discount.textContent = `€${(infoLocal[1] * ((100 - discountProcent) / 100)).toFixed(2)}`;
+            }
+
+            this.cods.innerHTML = '<div class="cods__title">Applied codes</div>';
+            localPromo.forEach((item) => {
+                const el = document.createElement('div');
+                el.className = 'cods__item';
+                el.setAttribute('id', item.id);
+                const spanEl = document.createElement('span');
+                spanEl.className = 'cods__text';
+                spanEl.textContent = item.text;
+                el.append(spanEl);
+
+                const btnEl = document.createElement('button');
+                btnEl.className = 'btn';
+                btnEl.textContent = 'Drop';
+                el.append(btnEl);
+                this.cods.append(el);
+            });
         }
     }
     dataInput(e: Event) {
@@ -71,7 +105,41 @@ export default class Promokod extends Component {
     addPromoLocal(e: Event) {
         const target = e.target as HTMLElement;
         if (!target.matches('.btn')) return;
-        console.log(12);
+        const parentTarget = target.closest('.promo__desc') as HTMLElement;
+        let idPromo: string | null = null;
+        if (parentTarget) idPromo = parentTarget.getAttribute('id');
+        const promo = Promokod.promokods.find((item) => item.id === idPromo);
+
+        const memory = localStorage.getItem('promo');
+        let localPromo: IPromo[];
+        if (!memory) localPromo = [];
+        else localPromo = JSON.parse(memory);
+        if (promo) {
+            localPromo.push(promo);
+            localStorage.setItem('promo', JSON.stringify(localPromo));
+        }
+        if (parentTarget) parentTarget.style.display = 'none';
+        this.changeInfo();
+    }
+    deletePromoLocal(e: Event) {
+        const target = e.target as HTMLElement;
+        if (!target.matches('.btn')) return;
+        const parentTarget = target.closest('.cods__item') as HTMLElement;
+        const memory = localStorage.getItem('promo');
+        let idPromo: string | null = null;
+        if (parentTarget) idPromo = parentTarget.getAttribute('id');
+
+        if (memory) {
+            const localPromo: IPromo[] = JSON.parse(memory);
+            if (idPromo) {
+                const promoIndex = localPromo.findIndex((item) => item.id === idPromo);
+                console.log(promoIndex);
+
+                localPromo.splice(promoIndex, 1);
+                localStorage.setItem('promo', JSON.stringify(localPromo));
+                this.changeInfo();
+            }
+        }
     }
     createAreaBlock() {
         const title = document.createElement('h2');
@@ -148,7 +216,8 @@ export default class Promokod extends Component {
         this.createAreaBlock();
         this.changeInfo();
         this.input.addEventListener('input', this.dataInput.bind(this));
-        this.desc.addEventListener('click', this.addPromoLocal.bind(this));
+        this.desc.addEventListener('click', this.addPromoLocal.bind(this)); //добавить промокод
+        this.cods.addEventListener('click', this.deletePromoLocal.bind(this)); //удалить промокод
         return this.container;
     }
 }
