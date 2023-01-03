@@ -1,6 +1,7 @@
 import Component from '../../../templates/components';
 import CartInfo from '../../header/cart';
 import { IPromo } from '../../../../types';
+import Modal from '../modal/modal';
 export default class Promokod extends Component {
     static promokods: IPromo[] = [
         { id: 'epm', text: 'EPAM Systems - 10%', proc: 10 },
@@ -212,12 +213,16 @@ export default class Promokod extends Component {
         // <div class='promo__desc'><span>EPAM Systems - 10%</span><button class='btn promo__add'>Add</div>
         // <button class="promo__btn btn">BUY NOW</button>`;
     }
+    openModal() {
+        this.container.append(new Modal('div', 'modal').render());
+    }
     render() {
         this.createAreaBlock();
         this.changeInfo();
         this.input.addEventListener('input', this.dataInput.bind(this));
         this.desc.addEventListener('click', this.addPromoLocal.bind(this)); //добавить промокод
         this.cods.addEventListener('click', this.deletePromoLocal.bind(this)); //удалить промокод
+        this.buyBtn.addEventListener('click', this.openModal.bind(this));
         return this.container;
     }
 }

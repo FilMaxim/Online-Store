@@ -1,4 +1,5 @@
 @import url(../../core/components/cart/promokod/promokod.css);
+@import url(../../core/components/cart/modal/modal.css);
 .cart-page {
     width: 100%;
     display: flex;

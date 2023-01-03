@@ -1,0 +1,48 @@
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal__wrapper {
+width: 70%;
+}
+.modal__title {
+}
+.modal__name {
+}
+.modal__input {
+}
+.modal__phone {
+}
+.modal__adress {
+}
+.modal__email {
+}
+.modal__card {
+}
+.credit {
+}
+.credit__card {
+}
+.credit__bank {
+}
+.credit__number {
+}
+.credit__info {
+}
+.credit__valid {
+}
+.credit__input-vald {
+}
+.credit__info-input {
+}
+.credit__cvv {
+}
+.credit__input-cvv {
+}
