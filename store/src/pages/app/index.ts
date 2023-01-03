@@ -46,6 +46,8 @@ class App {
             page = new CartPage(idPage);
         } else if (idPage.includes('id=')) {
             page = new DescriptionPage(idPage.replace('id=', ''));
+        } else if (/^\?\w+=\w+/.test(idPage)) {
+            page = new MainPage(idPage);
         } else {
             page = new ErrorPage(idPage, ErrorTypes.Error_404);
         }
