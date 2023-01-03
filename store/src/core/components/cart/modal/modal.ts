@@ -12,10 +12,12 @@ export default class Modal extends Component {
     createModal() {
         this.container.innerHTML = `  <div class="modal__wrapper">
         <h3 class="modal__title">Personal details</h3>
-        <input type="text" class="modal__name modal__input" placeholder="Name">
-        <input type="text" class="modal__phone modal__input" placeholder="Phone">
-        <input type="text" class="modal__adress modal__input" placeholder="Adress">
-        <input type="text" class="modal__email modal__input" placeholder="Email">
+        <div class = 'modal__personal'>
+        <input type="text" class="modal__name modal__input" placeholder="Name"><span class=modal__error>Error</span>
+        <input type="text" class="modal__phone modal__input" placeholder="Phone"><span class=modal__error>Error</span>
+        <input type="text" class="modal__adress modal__input" placeholder="Adress"><span class=modal__error></span>
+        <input type="text" class="modal__email modal__input" placeholder="Email"><span class=modal__error></span>
+        </div>
         <h3 class="modal__title">Credit card details </h3>
         <div class="modal__card credit">
           <div class="credit__card">

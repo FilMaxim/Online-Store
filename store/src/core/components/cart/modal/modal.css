@@ -2,21 +2,60 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
     height: 100vh;
     width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
+  
 }
 .modal__wrapper {
-width: 70%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color:var(--text-color);
+    padding: 20px;
+    border: 2px solid orange;
+    border-radius: 0.3rem;
+
+}
+.modal__personal{
+    align-self: stretch;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    grid-gap:10px;
+}
+.modal__wrapper::placeholder{
+    color:#444;
+}
+.modal__error{
+    color:var(--btn-bg-color);
+    font-weight: 600;
 }
 .modal__title {
+    align-self: stretch;
 }
 .modal__name {
 }
 .modal__input {
+    width: 80%;
+    padding: 15px;
+    border-radius: 0.5rem;
+    box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.5);
+    background:transparent;
+    border: 2px solid orange;
+
+}
+.modal__input:focus{
+    border:none;
+    outline: none;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    background:transparent;
+
 }
 .modal__phone {
 }
