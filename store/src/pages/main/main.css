@@ -75,7 +75,9 @@
     white-space: nowrap;
     color: rgb(255, 145, 0);
 }
-
+.prod-elem .item-info{
+    height: auto;
+}
 .item-info {
     color: wheat;
 }

@@ -1,5 +1,5 @@
 import Component from '../../templates/components';
-import { typeCart } from '../../../types';
+import { TypeCart } from '../../../types';
 import CartInfo from '../header/cart';
 export default class BtnAddCart extends Component {
     id: number;
@@ -9,7 +9,7 @@ export default class BtnAddCart extends Component {
     static searchIndex(id: number) {
         const cartValues = localStorage.getItem('cart');
         if (!cartValues) return -1;
-        const arrObj: typeCart[] = JSON.parse(cartValues);
+        const arrObj: TypeCart[] = JSON.parse(cartValues);
         return arrObj.findIndex((item) => item.id === id);
     }
     constructor(tagName: string, className: string, textAdd: string, textDrop: string, id: number, price: number) {

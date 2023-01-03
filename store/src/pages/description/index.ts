@@ -3,13 +3,21 @@ import Page from '../../core/templates/page';
 import * as objProducts from '../main/products.json';
 import { Product } from '../../types/index';
 import BtnAddCart from '../../core/components/main/btnAddCart';
+import Modal from '../../core/components/cart/modal/modal';
 class DescriptionPage extends Page {
     static TextObject = {
         MainTitle: 'Страница с описанием товара',
     };
+    btnOpenCart: HTMLElement;
 
     constructor(id: string) {
         super(id);
+        this.btnOpenCart = document.createElement('button');
+    }
+    //открытие корзины с модалкой
+    openCart() {
+        window.location.hash = `cart-page`;
+        document.body.append(new Modal('div', 'modal').render());
     }
 
     createDetailsPage() {
@@ -100,9 +108,9 @@ class DescriptionPage extends Page {
 
         const addCartBtn = new BtnAddCart('button', '', 'add to cart', 'drop to cart', objElement.id, objElement.price);
         cartButton.append(addCartBtn.render());
-        const btn = document.createElement('button');
-        btn.innerHTML = 'buy now';
-        cartButton.append(btn);
+
+        this.btnOpenCart.innerHTML = 'buy now';
+        cartButton.append(this.btnOpenCart);
 
         addToCard.append(cartButton);
 
@@ -120,6 +128,7 @@ class DescriptionPage extends Page {
     render() {
         const title = this.createHeaderTitle(DescriptionPage.TextObject.MainTitle);
         this.container.append(title);
+        this.btnOpenCart.addEventListener('click', this.openCart.bind(this));
         this.container.append(this.createDetailsPage());
         return this.container;
     }
