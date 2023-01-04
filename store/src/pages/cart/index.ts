@@ -42,7 +42,12 @@ class CartPage extends Page {
         inputCart.type = 'number';
         inputCart.min = '1';
         inputCart.max = '6';
-        inputCart.value = '1';
+        if (localStorage.getItem('limit')) {
+            inputCart.value = String(localStorage.getItem('limit'));
+        } else {
+            inputCart.value = '6';
+        }
+
         limit.append(inputCart);
 
         const pageNumbers = document.createElement('div');
@@ -52,7 +57,8 @@ class CartPage extends Page {
         btnNumber1.classList.add('btn-number');
         btnNumber1.innerHTML = '<';
         const spanNumber = document.createElement('span');
-        spanNumber.innerHTML = '1';
+        let page = 1;
+        spanNumber.innerHTML = String(page);
         const btnNumber2 = document.createElement('button');
         btnNumber2.classList.add('btn-number');
         btnNumber2.innerHTML = '>';
@@ -68,8 +74,8 @@ class CartPage extends Page {
 
         const prodItems = document.createElement('div');
         prodItems.classList.add('prod-items');
-        const cartElement = new OneElementCart('div', 'cart-items');
-        prodItems.append(cartElement.render());
+        // const cartElement = new OneElementCart('div', 'cart-items');
+        // prodItems.append(cartElement.render());
         productInCart.append(titleAndPageControl);
         productInCart.append(prodItems);
 
@@ -88,7 +94,49 @@ class CartPage extends Page {
                 if (a) return arrCart.push(a);
             });
         }
-        console.log(arrCart);
+        let maxPage: number;
+        // разбить массив arrCart на двухмерный массив в зависимости от LIMIT
+        function get2dimensional(array: Product[], limit: number) {
+            const result = [];
+            for (let i = 0; i < array.length; i += limit) {
+                result.push(array.slice(i, i + limit));
+            }
+            maxPage = result.length;
+            return result;
+        }
+        // слушатель на изменение LIMIT
+        inputCart.addEventListener('change', () => {
+            localStorage.setItem('limit', inputCart.value);
+            inputCart.value = String(localStorage.getItem('limit'));
+            renderCart(page);
+        });
+
+        //Функция которая рендерит карточки товара
+        function renderCart(page: number) {
+            const arrCarts = get2dimensional(arrCart, Number(inputCart.value));
+            prodItems.innerHTML = '';
+            arrCarts[page - 1].forEach((el) => {
+                const cartElement = new OneElementCart('div', 'cart-items', el);
+                prodItems.append(cartElement.render());
+            });
+        }
+        renderCart(page);
+
+        btnNumber2.addEventListener('click', () => {
+            if (page < maxPage) {
+                page++;
+                spanNumber.innerHTML = String(page);
+                renderCart(page);
+            }
+        });
+        btnNumber1.addEventListener('click', () => {
+            if (page > 1) {
+                page--;
+                spanNumber.innerHTML = String(page);
+                renderCart(page);
+            }
+        });
+
         return main;
     }
 
