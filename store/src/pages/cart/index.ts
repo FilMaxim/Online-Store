@@ -74,8 +74,7 @@ class CartPage extends Page {
 
         const prodItems = document.createElement('div');
         prodItems.classList.add('prod-items');
-        // const cartElement = new OneElementCart('div', 'cart-items');
-        // prodItems.append(cartElement.render());
+
         productInCart.append(titleAndPageControl);
         productInCart.append(prodItems);
 
@@ -89,8 +88,12 @@ class CartPage extends Page {
         const arrCart: Product[] = [];
         if (data && data !== null) {
             const dataObj = JSON.parse(data);
+            let i = 1;
             dataObj.forEach((el: TypeCart) => {
                 const a = objProducts.products.find((e) => el.id === e.id);
+                if (a) Object.assign(a, { num: i });
+                i++;
+                console.log(a);
                 if (a) return arrCart.push(a);
             });
         }

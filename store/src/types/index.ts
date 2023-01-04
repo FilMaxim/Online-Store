@@ -11,6 +11,7 @@ export interface Product {
     textContent?: string;
     thumbnail: string;
     title: string;
+    num?: number;
 }
 
 //для страницы main

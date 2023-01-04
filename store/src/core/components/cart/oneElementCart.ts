@@ -1,19 +1,17 @@
 import Component from '../../templates/components';
 import { Product } from '../../../types/index';
-
 export default class ElementCart extends Component {
     cart: Product;
     constructor(tagName: string, className: string, cart: Product) {
         super(tagName, className);
         this.cart = cart;
     }
-
     createElementCartPage() {
         const cartItemWrap = document.createElement('div');
         cartItemWrap.classList.add('cart-item-wrap');
         const itemI = document.createElement('div');
         itemI.classList.add('item-i');
-        itemI.textContent = '1';
+        itemI.textContent = String(this.cart.num);
         const itemInfo = document.createElement('div');
         itemInfo.classList.add('item-info');
 
