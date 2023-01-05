@@ -57,7 +57,12 @@ class CartPage extends Page {
         btnNumber1.classList.add('btn-number');
         btnNumber1.innerHTML = '<';
         const spanNumber = document.createElement('span');
-        let page = 1;
+        let page: number;
+        if (localStorage.getItem('page')) {
+            page = Number(localStorage.getItem('page'));
+        } else {
+            page = 1;
+        }
         spanNumber.innerHTML = String(page);
         const btnNumber2 = document.createElement('button');
         btnNumber2.classList.add('btn-number');
@@ -93,7 +98,6 @@ class CartPage extends Page {
                 const a = objProducts.products.find((e) => el.id === e.id);
                 if (a) Object.assign(a, { num: i });
                 i++;
-                console.log(a);
                 if (a) return arrCart.push(a);
             });
         }
@@ -109,6 +113,10 @@ class CartPage extends Page {
         }
         // слушатель на изменение LIMIT
         inputCart.addEventListener('change', () => {
+            if (page > maxPage) {
+                page = maxPage;
+                spanNumber.innerHTML = String(page);
+            }
             localStorage.setItem('limit', inputCart.value);
             inputCart.value = String(localStorage.getItem('limit'));
             renderCart(page);
@@ -117,6 +125,10 @@ class CartPage extends Page {
         //Функция которая рендерит карточки товара
         function renderCart(page: number) {
             const arrCarts = get2dimensional(arrCart, Number(inputCart.value));
+            if (page > maxPage) {
+                page = maxPage;
+                spanNumber.innerHTML = String(page);
+            }
             prodItems.innerHTML = '';
             arrCarts[page - 1].forEach((el) => {
                 const cartElement = new OneElementCart('div', 'cart-items', el);
@@ -125,21 +137,26 @@ class CartPage extends Page {
         }
         renderCart(page);
 
+        // слушатели клики переход по страницам
         btnNumber2.addEventListener('click', () => {
             if (page < maxPage) {
                 page++;
                 spanNumber.innerHTML = String(page);
                 renderCart(page);
+                localStorage.setItem('page', String(page));
             }
         });
         btnNumber1.addEventListener('click', () => {
+            if (page > maxPage) {
+                page = maxPage;
+            }
             if (page > 1) {
                 page--;
                 spanNumber.innerHTML = String(page);
                 renderCart(page);
+                localStorage.setItem('page', String(page));
             }
         });
-
         return main;
     }
 

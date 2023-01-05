@@ -60,8 +60,12 @@ export default class ElementCart extends Component {
         const btnControl2 = document.createElement('div');
         btnControl2.classList.add('btn-control');
         btnControl2.textContent = '+';
+
+        let amount = 1;
+        const spanAmount = document.createElement('span');
+        spanAmount.innerHTML = String(amount);
         incDecControl.append(btnControl1);
-        incDecControl.innerHTML += '1';
+        incDecControl.append(spanAmount);
         incDecControl.append(btnControl2);
 
         const amountControl = document.createElement('div');
@@ -74,6 +78,23 @@ export default class ElementCart extends Component {
         cartItemWrap.append(itemI);
         cartItemWrap.append(itemInfo);
         cartItemWrap.append(numberControl);
+
+        // слушатели клики по кол-ву товара
+        btnControl1.addEventListener('click', () => {
+            if (amount > 1) {
+                amount--;
+                spanAmount.innerHTML = String(amount);
+            }
+            if (amount === 0) {
+                cartItemWrap.innerHTML === '';
+            }
+        });
+        btnControl2.addEventListener('click', () => {
+            if (amount < 10) {
+                amount++;
+                spanAmount.innerHTML = String(amount);
+            }
+        });
 
         return cartItemWrap;
     }
