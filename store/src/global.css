@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;900&display=swap');
 @import url(./core/components/header/header.css);
+@import url(./pages/error/error.css);
 
 * {
     margin: 0;
