@@ -7,15 +7,20 @@ export default class CartInfo extends Component {
     count: number;
     constructor(tagName: string, className: string) {
         super(tagName, className);
-        this.total = 2748.1;
-        this.count = 2;
+        this.total = 0;
+        this.count = 0;
     }
     static changeLocal() {
         const cartValues = localStorage.getItem('cart');
-        if (!cartValues) return;
-        const total = document.querySelector('.cart-info__total');
+
+        const total = document.querySelector('.cart-info__total') as HTMLElement;
         const count = document.querySelector('.cart-info__btn span') as HTMLElement;
 
+        if (!cartValues) {
+            if (total) total.textContent = '€ 0';
+            if (count) count.textContent = '0';
+            return;
+        }
         let cartCount = 0;
         let cartTotal = 0;
 
