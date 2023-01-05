@@ -65,34 +65,7 @@
     background:transparent;
 
 }
-.modal__phone {
-}
-.modal__adress {
-}
-.modal__email {
-}
-.modal__card {
-}
-.credit {
-}
-.credit__card {
-}
-.credit__bank {
-}
-.credit__number {
-}
-.credit__info {
-}
-.credit__valid {
-}
-.credit__input-vald {
-}
-.credit__info-input {
-}
-.credit__cvv {
-}
-.credit__input-cvv {
-}
+
 
 .modal__btn{
     width: 300px;
@@ -106,4 +79,59 @@
     color: wheat;
     border: 2px solid orange;
     border-radius: 0.3rem;
+}
+.modal__card{
+
+    width: 40%;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(65,65,68,1) 35%, rgba(255,255,255,1) 100%);
+padding: 30px;
+border-radius:10px;
+
+}
+.credit__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap:10px;
+    margin-bottom: 20px;
+}
+.modal__card input{
+    padding: 15px;
+    border-radius:0.3em;
+    border:1px solid orange;
+    
+}
+.modal__card input::placeholder{
+    font-size: 10px;
+}
+.modal__card input:focus{
+    border:none;
+    outline: none;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+.credit__bank {
+    flex-basis: 15%;
+    background-image:url('../../../../assets/icons/pay/0.png') ;
+    background-repeat: no-repeat;
+    background-size:cover;
+    height: 24px;
+    border-radius: 0.3rem;
+}
+.credit__number {
+    flex-basis:85%;
+}
+.credit__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.credit__input-valid {
+    width: 82px;
+}
+
+.credit__input-cvv {
+    width: 64px;
 }
