@@ -1,5 +1,6 @@
 import Component from '../../templates/components';
 import { Product } from '../../../types/index';
+import { TypeCart } from '../../../types/index';
 export default class ElementCart extends Component {
     cart: Product;
     constructor(tagName: string, className: string, cart: Product) {
@@ -7,6 +8,9 @@ export default class ElementCart extends Component {
         this.cart = cart;
     }
     createElementCartPage() {
+        const data2 = JSON.parse(String(localStorage.getItem('cart')));
+        const elementPr = data2.find((e: TypeCart) => e.id === this.cart.id);
+
         const cartItemWrap = document.createElement('div');
         cartItemWrap.classList.add('cart-item-wrap');
         const itemI = document.createElement('div');
@@ -61,9 +65,12 @@ export default class ElementCart extends Component {
         btnControl2.classList.add('btn-control');
         btnControl2.textContent = '+';
 
-        let amount = 1;
         const spanAmount = document.createElement('span');
-        spanAmount.innerHTML = String(amount);
+        let amound = 1;
+        if (elementPr.count) {
+            amound = elementPr.count;
+            spanAmount.innerHTML = String(amound);
+        }
         incDecControl.append(btnControl1);
         incDecControl.append(spanAmount);
         incDecControl.append(btnControl2);
@@ -81,18 +88,25 @@ export default class ElementCart extends Component {
 
         // слушатели клики по кол-ву товара
         btnControl1.addEventListener('click', () => {
-            if (amount > 1) {
-                amount--;
-                spanAmount.innerHTML = String(amount);
-            }
-            if (amount === 0) {
-                cartItemWrap.innerHTML === '';
+            if (amound > 0) {
+                const data2 = JSON.parse(String(localStorage.getItem('cart')));
+                const elementPr = data2.find((e: TypeCart) => e.id === this.cart.id);
+                amound--;
+                spanAmount.innerHTML = String(amound);
+                console.log(data2);
+                elementPr.count = amound;
+                localStorage.setItem('cart', JSON.stringify(data2));
             }
         });
         btnControl2.addEventListener('click', () => {
-            if (amount < 10) {
-                amount++;
-                spanAmount.innerHTML = String(amount);
+            if (amound < this.cart.stock) {
+                const data2 = JSON.parse(String(localStorage.getItem('cart')));
+                const elementPr = data2.find((e: TypeCart) => e.id === this.cart.id);
+                amound++;
+                spanAmount.innerHTML = String(amound);
+                console.log(data2);
+                elementPr.count = amound;
+                localStorage.setItem('cart', JSON.stringify(data2));
             }
         });
 
