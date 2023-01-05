@@ -8,7 +8,7 @@ export default class CartInfo extends Component {
     constructor(tagName: string, className: string) {
         super(tagName, className);
         this.total = 0;
-        this.count = 0;
+        this.count = 2;
     }
     static changeLocal() {
         const cartValues = localStorage.getItem('cart');
@@ -18,7 +18,7 @@ export default class CartInfo extends Component {
 
         if (!cartValues) {
             if (total) total.textContent = '€ 0';
-            if (count) count.textContent = '0';
+            if (count) count.style.display = 'none';
             return;
         }
         let cartCount = 0;
@@ -38,6 +38,7 @@ export default class CartInfo extends Component {
                 count.style.display = 'none';
             }
         }
+
         return [cartCount, cartTotal];
     }
     renderCartInfo() {
