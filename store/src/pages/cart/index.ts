@@ -165,7 +165,13 @@ class CartPage extends Page {
         if (!target.matches('.btn-control')) return;
         const c = CartInfo.changeLocal();
         this.promokod.changeInfo();
-        if (c) if (c[0] === 0) this.createNullCart();
+        if (c)
+            if (c[0] === 0) {
+                console.log(12);
+
+                this.container.textContent = '';
+                this.container.append(this.createNullCart());
+            }
     }
 
     createNullCart() {
