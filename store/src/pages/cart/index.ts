@@ -160,10 +160,28 @@ class CartPage extends Page {
         return main;
     }
 
+    createNullCart() {
+        const main = document.createElement('main');
+        main.classList.add('details');
+        const cartPage = document.createElement('div');
+        cartPage.classList.add('cart-page');
+        const h2none = document.createElement('h2');
+        h2none.classList.add('none-h2');
+        h2none.textContent = 'Cart is Empty';
+        cartPage.append(h2none);
+        main.append(cartPage);
+        return main;
+    }
+
     render() {
         const title = this.createHeaderTitle(CartPage.TextObject.MainTitle);
         this.container.append(title);
-        this.container.append(this.createCartPage());
+        if (localStorage.getItem('cart')) {
+            this.container.append(this.createCartPage());
+        } else {
+            this.container.append(this.createNullCart());
+        }
+
         return this.container;
     }
 }
