@@ -1,40 +1,45 @@
 import Component from '../../templates/components';
-
+import { Product } from '../../../types/index';
+import { TypeCart } from '../../../types/index';
 export default class ElementCart extends Component {
-    constructor(tagName: string, className: string) {
+    cart: Product;
+    constructor(tagName: string, className: string, cart: Product) {
         super(tagName, className);
+        this.cart = cart;
     }
-
     createElementCartPage() {
+        const data2 = JSON.parse(String(localStorage.getItem('cart')));
+        const elementPr = data2.find((e: TypeCart) => e.id === this.cart.id);
+
         const cartItemWrap = document.createElement('div');
         cartItemWrap.classList.add('cart-item-wrap');
         const itemI = document.createElement('div');
         itemI.classList.add('item-i');
-        itemI.textContent = '1';
+        itemI.textContent = String(this.cart.num);
         const itemInfo = document.createElement('div');
         itemInfo.classList.add('item-info');
 
         const imgCart = document.createElement('img');
-        imgCart.src = 'https://i.dummyjson.com/data/products/51/thumbnail.jpg';
+        imgCart.src = this.cart.images[0];
         const itemDetailP = document.createElement('div');
         itemDetailP.classList.add('item-detai-p');
 
         const productTitle = document.createElement('div');
         productTitle.classList.add('product-title-cart');
         const productTitleH3 = document.createElement('h3');
-        productTitleH3.textContent = 'Infinix INBOOK';
+        productTitleH3.textContent = this.cart.title;
         productTitle.append(productTitleH3);
         const productDescription = document.createElement('div');
         productDescription.classList.add('product-description');
-        productDescription.innerHTML = 'Infinix Inbook X1 Ci3 10th 8GB 256GB 14 Win10 Grey – 1 Year Warranty';
+        productDescription.innerHTML = this.cart.description;
         const productOther = document.createElement('div');
         productOther.classList.add('product-other');
         const rating = document.createElement('div');
         rating.classList.add('rating-discount');
-        rating.textContent = 'Rating: 4.54';
+        rating.textContent = `Rating: ${this.cart.rating}`;
         const discount = document.createElement('div');
         discount.classList.add('rating-discount');
-        discount.textContent = 'Discount: 11.83%';
+        discount.textContent = `Discount: ${this.cart.discountPercentage}`;
         productOther.append(rating);
         productOther.append(discount);
 
@@ -49,7 +54,7 @@ export default class ElementCart extends Component {
         numberControl.classList.add('number-control');
         const stockControl = document.createElement('div');
         stockControl.classList.add('stock-control');
-        stockControl.textContent = 'Stock: 34';
+        stockControl.textContent = `Stock: ${this.cart.stock}`;
         const incDecControl = document.createElement('div');
         incDecControl.classList.add('incDec-control');
 
@@ -59,13 +64,20 @@ export default class ElementCart extends Component {
         const btnControl2 = document.createElement('div');
         btnControl2.classList.add('btn-control');
         btnControl2.textContent = '+';
+
+        const spanAmount = document.createElement('span');
+        let amound = 1;
+        if (elementPr.count) {
+            amound = elementPr.count;
+            spanAmount.innerHTML = String(amound);
+        }
         incDecControl.append(btnControl1);
-        incDecControl.innerHTML += '1';
+        incDecControl.append(spanAmount);
         incDecControl.append(btnControl2);
 
         const amountControl = document.createElement('div');
         amountControl.classList.add('amount-control');
-        amountControl.textContent = '€1,249.00';
+        amountControl.textContent = `€${this.cart.price}`;
         numberControl.append(stockControl);
         numberControl.append(incDecControl);
         numberControl.append(amountControl);
@@ -73,6 +85,30 @@ export default class ElementCart extends Component {
         cartItemWrap.append(itemI);
         cartItemWrap.append(itemInfo);
         cartItemWrap.append(numberControl);
+
+        // слушатели клики по кол-ву товара
+        btnControl1.addEventListener('click', () => {
+            if (amound > 0) {
+                const data2 = JSON.parse(String(localStorage.getItem('cart')));
+                const elementPr = data2.find((e: TypeCart) => e.id === this.cart.id);
+                amound--;
+                spanAmount.innerHTML = String(amound);
+                console.log(data2);
+                elementPr.count = amound;
+                localStorage.setItem('cart', JSON.stringify(data2));
+            }
+        });
+        btnControl2.addEventListener('click', () => {
+            if (amound < this.cart.stock) {
+                const data2 = JSON.parse(String(localStorage.getItem('cart')));
+                const elementPr = data2.find((e: TypeCart) => e.id === this.cart.id);
+                amound++;
+                spanAmount.innerHTML = String(amound);
+                console.log(data2);
+                elementPr.count = amound;
+                localStorage.setItem('cart', JSON.stringify(data2));
+            }
+        });
 
         return cartItemWrap;
     }

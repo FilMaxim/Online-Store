@@ -187,6 +187,10 @@
     font-size: 150%;
 }
 
+.incDec-control span {
+    font-size: 110%;
+}
+
 .amount-control {
     display: flex;
     color: #d2b06f;
