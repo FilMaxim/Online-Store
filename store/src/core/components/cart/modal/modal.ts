@@ -109,10 +109,14 @@ export default class Modal extends Component {
         if (this.emailCheck) return;
         this.emailChange();
     }
+    checkCredit(str: string) {
+        const arr: string[] = str.split(' ');
+        if (arr.length !== 4 || arr.some((item) => item.length !== 4)) return true;
+        return false;
+    }
     creditCardNumChange() {
         this.creditCardNumCheck = false;
-        const arr = this.creditCardNum.value.split(' ');
-        if (arr.length !== 4 || arr.some((item) => item.length !== 4)) {
+        if (this.checkCredit(this.creditCardNum.value)) {
             this.error1.textContent = 'Card number - error';
             return false;
         } else {
