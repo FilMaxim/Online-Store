@@ -1,0 +1,11 @@
+.error__wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    flex-direction: column;
+    margin-top: 50px;
+}
+.error__title{
+    font-size: 80px;
+}

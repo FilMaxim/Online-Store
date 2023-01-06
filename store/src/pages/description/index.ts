@@ -2,6 +2,7 @@ import './description.css';
 import Page from '../../core/templates/page';
 import * as objProducts from '../main/products.json';
 import { Product } from '../../types/index';
+
 import BtnAddCart from '../../core/components/main/btnAddCart';
 import Modal from '../../core/components/cart/modal/modal';
 class DescriptionPage extends Page {
@@ -9,19 +10,30 @@ class DescriptionPage extends Page {
         MainTitle: 'Страница с описанием товара',
     };
     btnOpenCart: HTMLElement;
+    idEl: number;
+    price: number;
 
     constructor(id: string) {
         super(id);
+        this.idEl = 0;
+        this.price = 0;
         this.btnOpenCart = document.createElement('button');
     }
     //открытие корзины с модалкой
     openCart() {
+        if (BtnAddCart.searchIndex(Number(this.idEl)) === -1) {
+            const newEl = new BtnAddCart('div', '', '', '', this.idEl, this.price);
+            newEl.addCart();
+        }
         window.location.hash = `cart-page`;
         document.body.append(new Modal('div', 'modal').render());
     }
 
     createDetailsPage() {
         const idEl = Number(this.container.id);
+        this.idEl = idEl;
+        console.log(idEl);
+
         const objElement: Product = objProducts.products.filter((el) => el.id === idEl)[0];
         console.log(objElement);
 
@@ -106,7 +118,8 @@ class DescriptionPage extends Page {
         cartButton.classList.add('cart-button');
         cartButton.innerHTML = '€' + String(objElement.price);
 
-        const addCartBtn = new BtnAddCart('button', '', 'add to cart', 'drop to cart', objElement.id, objElement.price);
+        this.price = objElement.price;
+        const addCartBtn = new BtnAddCart('button', '', 'add to cart', 'drop to cart', this.idEl, this.price);
         cartButton.append(addCartBtn.render());
 
         this.btnOpenCart.innerHTML = 'buy now';

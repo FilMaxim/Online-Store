@@ -17,7 +17,7 @@
     align-items: center;
     gap: 10px;
     background-color:var(--text-color);
-    padding: 20px;
+    padding: 20px 50px;
     border: 2px solid orange;
     border-radius: 0.3rem;
 
@@ -25,9 +25,17 @@
 .modal__personal{
     align-self: stretch;
     display: grid;
-    grid-template-columns: 1fr;
-    justify-items: center;
     grid-gap:10px;
+}
+.modal__label{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:10px;
+    margin-left:10px;
+}
+.modal__input{
+    flex-basis: 100%;
 }
 .modal__wrapper::placeholder{
     color:#444;
@@ -57,31 +65,73 @@
     background:transparent;
 
 }
-.modal__phone {
+
+
+.modal__btn{
+    width: 300px;
+    text-align: center;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #9a3535;
+    color: wheat;
+    border: 2px solid orange;
+    border-radius: 0.3rem;
 }
-.modal__adress {
-}
-.modal__email {
-}
-.modal__card {
-}
-.credit {
+.modal__card{
+
+    width: 40%;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(65,65,68,1) 35%, rgba(255,255,255,1) 100%);
+padding: 30px;
+border-radius:10px;
+
 }
 .credit__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap:10px;
+    margin-bottom: 20px;
+}
+.modal__card input{
+    padding: 15px;
+    border-radius:0.3em;
+    border:1px solid orange;
+    
+}
+.modal__card input::placeholder{
+    font-size: 10px;
+}
+.modal__card input:focus{
+    border:none;
+    outline: none;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
 }
 .credit__bank {
+    flex-basis: 15%;
+    background-image:url('../../../../assets/icons/pay/0.png') ;
+    background-repeat: no-repeat;
+    background-size:cover;
+    height: 24px;
+    border-radius: 0.3rem;
 }
 .credit__number {
+    flex-basis:85%;
 }
 .credit__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
-.credit__valid {
+
+.credit__input-valid {
+    width: 82px;
 }
-.credit__input-vald {
-}
-.credit__info-input {
-}
-.credit__cvv {
-}
+
 .credit__input-cvv {
+    width: 64px;
 }
