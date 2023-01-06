@@ -90,11 +90,16 @@ export default class ElementCart extends Component {
         btnControl1.addEventListener('click', () => {
             if (amound > 0) {
                 const data2 = JSON.parse(String(localStorage.getItem('cart')));
-                const elementPr = data2.find((e: TypeCart) => e.id === this.cart.id);
+                const elementPr = data2.findIndex((e: TypeCart) => e.id === this.cart.id);
                 amound--;
-                spanAmount.innerHTML = String(amound);
-                console.log(data2);
-                elementPr.count = amound;
+                if (amound === 0) {
+                    data2.splice(elementPr, 1);
+                    if (data2.length === 0) localStorage.removeItem('cart');
+                    this.container.remove();
+                } else {
+                    spanAmount.innerHTML = String(amound);
+                    data2[elementPr].count = amound;
+                }
                 localStorage.setItem('cart', JSON.stringify(data2));
             }
         });

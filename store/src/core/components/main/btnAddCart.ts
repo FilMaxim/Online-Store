@@ -36,7 +36,8 @@ export default class BtnAddCart extends Component {
                 arrObj.splice(index, 1);
                 this.container.textContent = this.textAdd;
                 this.container.classList.remove('btn-drop');
-                localStorage.setItem('cart', JSON.stringify(arrObj));
+                if (arrObj.length === 0) localStorage.removeItem('cart');
+                else localStorage.setItem('cart', JSON.stringify(arrObj));
             } else {
                 arrObj.push(obj);
                 localStorage.setItem('cart', JSON.stringify(arrObj));
