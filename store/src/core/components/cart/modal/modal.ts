@@ -45,11 +45,16 @@ export default class Modal extends Component {
 
         this.btn = document.createElement('button');
     }
+    static checkName(str: string) {
+        const sp = str.trim().split(' ');
+
+        if (sp.some((item) => item.length < 3) || sp.length < 2) return false;
+        return true;
+    }
     nameChange() {
         this.nameCheck = false;
-        const sp = this.name.value.split(' ');
 
-        if (sp.some((item) => item.length < 3) || sp.length < 2) {
+        if (Modal.checkName(this.name.value)) {
             if (this.name.nextElementSibling) this.name.nextElementSibling.textContent = 'Error';
             return false;
         } else {
@@ -62,10 +67,14 @@ export default class Modal extends Component {
         if (this.nameCheck) return;
         this.nameChange();
     }
+    static checkPhone(str: string) {
+        if (/(\+)[\d]{9,}\d$/gi.test(str) && str.split('+').length === 2) return true;
+        else return false;
+    }
 
     phoneChange() {
         this.phoneCheck = false;
-        if (/(\+)[\d]{9,}\d$/gi.test(this.phone.value) && this.phone.value.split('+').length === 2) {
+        if (Modal.checkPhone(this.phone.value)) {
             if (this.phone.nextElementSibling) this.phone.nextElementSibling.textContent = '';
             return true;
         } else {
@@ -78,11 +87,15 @@ export default class Modal extends Component {
         if (this.phoneCheck) return;
         this.phoneChange();
     }
+    static checkAdress(str: string) {
+        const sp = str.trim().split(' ');
+        if (sp.some((item) => item.length < 5) || sp.length < 3) return false;
+        return true;
+    }
     addressChange() {
         this.addressCheck = false;
-        const sp = this.address.value.split(' ');
 
-        if (sp.some((item) => item.length < 5) || sp.length < 3) {
+        if (Modal.checkAdress(this.address.value)) {
             if (this.address.nextElementSibling) this.address.nextElementSibling.textContent = 'Error';
             return false;
         } else {
@@ -94,10 +107,15 @@ export default class Modal extends Component {
         if (this.addressCheck) return;
         this.addressChange();
     }
+    static checkEmail(str: string) {
+        const reg = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+        if (reg.test(str)) return true;
+        return false;
+    }
     emailChange() {
         this.emailCheck = false;
-        const reg = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-        if (reg.test(this.email.value)) {
+
+        if (Modal.checkEmail(this.email.value)) {
             if (this.email.nextElementSibling) this.email.nextElementSibling.textContent = '';
             return true;
         } else {
@@ -109,14 +127,14 @@ export default class Modal extends Component {
         if (this.emailCheck) return;
         this.emailChange();
     }
-    checkCredit(str: string) {
+    static checkCredit(str: string) {
         const arr: string[] = str.split(' ');
-        if (arr.length !== 4 || arr.some((item) => item.length !== 4)) return true;
-        return false;
+        if (arr.length !== 4 || arr.some((item) => item.length !== 4)) return false;
+        return true;
     }
     creditCardNumChange() {
         this.creditCardNumCheck = false;
-        if (this.checkCredit(this.creditCardNum.value)) {
+        if (!Modal.checkCredit(this.creditCardNum.value)) {
             this.error1.textContent = 'Card number - error';
             return false;
         } else {
@@ -143,13 +161,17 @@ export default class Modal extends Component {
         if (this.validCheck) return;
         this.validChange();
     }
-    validChange() {
-        this.validCheck = false;
-        const arr = this.valid.value.split('/');
+    static checkValid(str: string) {
+        const arr = str.split('/');
         const year = new Date().getFullYear();
         const yearCard = Number(`20${arr[1]}`);
-
-        if (Number(arr[0]) === 0 || yearCard < year || Number(arr[0]) > 12 || arr.some((item) => item.length !== 2)) {
+        if (!(Number(arr[0]) === 0 || yearCard < year || Number(arr[0]) > 12 || arr.some((item) => item.length !== 2)))
+            return true;
+        return false;
+    }
+    validChange() {
+        this.validCheck = false;
+        if (!Modal.checkValid(this.valid.value)) {
             console.log('+Проверка на текущий год');
             this.error2.textContent = 'Card valid thru - error';
             return false;
@@ -164,9 +186,13 @@ export default class Modal extends Component {
         if (this.cvvCheck) return;
         this.cvvChange();
     }
+    static checkCVV(str: string) {
+        if (str.length !== 3) return false;
+        return true;
+    }
     cvvChange() {
         this.cvvCheck = false;
-        if (this.cvv.value.length !== 3) {
+        if (Modal.checkCVV(this.cvv.value)) {
             this.error3.textContent = 'Card CVV - error';
             return false;
         } else {

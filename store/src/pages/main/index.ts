@@ -1,4 +1,3 @@
-import './main.css';
 import Page from '../../core/templates/page';
 import Card from '../../core/components/main/card';
 import Filter from '../../core/components/main/filter';
