@@ -5,6 +5,7 @@ import Promokod from '../../core/components/cart/promokod/promokod';
 import * as objProducts from '../main/products.json';
 import { TypeCart } from '../../types/index';
 import { Product } from '../../types/index';
+import CartInfo from '../../core/components/header/cart';
 
 class CartPage extends Page {
     static TextObject = {
@@ -159,6 +160,13 @@ class CartPage extends Page {
         });
         return main;
     }
+    clickPlusMinus(e: Event) {
+        const target = e.target as HTMLElement;
+        if (!target.matches('.btn-control')) return;
+        const c = CartInfo.changeLocal();
+        this.promokod.changeInfo();
+        if (c) if (c[0] === 0) this.createNullCart();
+    }
 
     createNullCart() {
         const main = document.createElement('main');
@@ -176,6 +184,7 @@ class CartPage extends Page {
     render() {
         const title = this.createHeaderTitle(CartPage.TextObject.MainTitle);
         this.container.append(title);
+        this.container.addEventListener('click', this.clickPlusMinus.bind(this));
         if (localStorage.getItem('cart')) {
             this.container.append(this.createCartPage());
         } else {
