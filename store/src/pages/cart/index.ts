@@ -5,6 +5,7 @@ import Promokod from '../../core/components/cart/promokod/promokod';
 import * as objProducts from '../main/products.json';
 import { TypeCart } from '../../types/index';
 import { Product } from '../../types/index';
+import { FunctionalType } from '../../types/index';
 import CartInfo from '../../core/components/header/cart';
 
 class CartPage extends Page {
@@ -124,7 +125,7 @@ class CartPage extends Page {
         });
 
         //Функция которая рендерит карточки товара
-        function renderCart(page: number) {
+        const renderCart: FunctionalType = function (page: number) {
             const arrCarts = get2dimensional(arrCart, Number(inputCart.value));
             if (page > maxPage) {
                 page = maxPage;
@@ -135,7 +136,8 @@ class CartPage extends Page {
                 const cartElement = new OneElementCart('div', 'cart-items', el);
                 prodItems.append(cartElement.render());
             });
-        }
+            return null;
+        };
         renderCart(page);
 
         // слушатели клики переход по страницам
@@ -167,8 +169,6 @@ class CartPage extends Page {
         this.promokod.changeInfo();
         if (c)
             if (c[0] === 0) {
-                console.log(12);
-
                 this.container.textContent = '';
                 this.container.append(this.createNullCart());
             }

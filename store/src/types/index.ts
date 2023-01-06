@@ -49,3 +49,5 @@ export interface IPromo {
     text: string;
     proc: number;
 }
+
+export type FunctionalType = (p1: number) => null;
