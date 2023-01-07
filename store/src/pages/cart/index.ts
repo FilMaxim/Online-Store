@@ -13,10 +13,14 @@ class CartPage extends Page {
         MainTitle: 'Страница корзины товаров',
     };
     promokod: Promokod;
+    maxPage: number;
+    promoEl: HTMLElement;
 
     constructor(id: string) {
         super(id);
         this.promokod = new Promokod('div', 'total-cart promo');
+        this.promoEl = this.promokod.render();
+        this.maxPage = 0;
     }
 
     createCartPage() {
@@ -88,7 +92,7 @@ class CartPage extends Page {
         productInCart.append(prodItems);
 
         cartWrapper.append(productInCart);
-        cartWrapper.append(this.promokod.render());
+        cartWrapper.append(this.promoEl);
         cartPage.append(cartWrapper);
         main.append(cartPage);
 
@@ -135,6 +139,8 @@ class CartPage extends Page {
                 spanNumber.innerHTML = String(page);
             }
             prodItems.innerHTML = '';
+            console.log('12', arrCarts);
+
             arrCarts[page - 1].forEach((el) => {
                 const cartElement = new OneElementCart('div', 'cart-items', el);
                 prodItems.append(cartElement.render());
@@ -170,11 +176,19 @@ class CartPage extends Page {
         if (!target.matches('.btn-control')) return;
         const c = CartInfo.changeLocal();
         this.promokod.changeInfo();
+        console.log(this.container);
+        const elem = this.container.querySelector('.prod-items');
+
         if (c)
             if (c[0] === 0) {
                 this.container.textContent = '';
                 this.container.append(this.createNullCart());
+                return;
             }
+        if (!elem?.childNodes.length) {
+            this.container.textContent = '';
+            this.container.append(this.createCartPage());
+        }
     }
 
     createNullCart() {

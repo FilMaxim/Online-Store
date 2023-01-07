@@ -200,6 +200,7 @@
 }
 
 .btn-control {
+    user-select: none;
     width: 2rem;
     height: 2rem;
     background-color: #181a1c;
