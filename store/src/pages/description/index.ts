@@ -139,8 +139,6 @@ class DescriptionPage extends Page {
     }
 
     render() {
-        const title = this.createHeaderTitle(DescriptionPage.TextObject.MainTitle);
-        this.container.append(title);
         this.btnOpenCart.addEventListener('click', this.openCart.bind(this));
         this.container.append(this.createDetailsPage());
         return this.container;

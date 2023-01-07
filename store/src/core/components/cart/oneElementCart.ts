@@ -110,7 +110,6 @@ export default class ElementCart extends Component {
                 const elementPr = data2.find((e: TypeCart) => e.id === this.cart.id);
                 amound++;
                 spanAmount.innerHTML = String(amound);
-                console.log(data2);
                 elementPr.count = amound;
                 localStorage.setItem('cart', JSON.stringify(data2));
             }

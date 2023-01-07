@@ -5,6 +5,7 @@ import DescriptionPage from '../description/index';
 import Header from '../../core/components/header/index';
 import ErrorPage, { ErrorTypes } from '../error/index';
 import CartInfo from '../../core/components/header/cart';
+import Footer from '../../core/components/footer';
 
 export const enum PageIds {
     MainPage = 'main-page',
@@ -16,6 +17,7 @@ class App {
     private static container: HTMLElement = document.body;
     private static defaultPageId = 'current-page';
     private header: Header;
+    private footer: Footer;
 
     //проверка на корректные url
     static checkHash(str: string): boolean {
@@ -72,6 +74,7 @@ class App {
 
     constructor() {
         this.header = new Header('header', 'header');
+        this.footer = new Footer('footer', 'footer');
     }
 
     run() {
@@ -80,6 +83,7 @@ class App {
 
         if (window.location.hash === '') window.location.hash = 'main-page';
         else App.renderNewPage(window.location.hash.slice(1));
+        App.container.append(this.footer.render());
         this.enableRouteChange();
     }
 }

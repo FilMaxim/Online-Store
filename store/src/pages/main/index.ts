@@ -171,9 +171,6 @@ class MainPage extends Page {
     }
 
     render() {
-        const title = this.createHeaderTitle(MainPage.TextObject.MainTitle);
-        this.container.append(title);
-
         this.container.append(this.createMainPage());
 
         return this.container;

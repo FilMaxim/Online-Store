@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     height: fit-content;
-    color: orange;
+    color: var(--btn-bg-color);;
 }
 
 .cart-wrapper {
@@ -212,4 +212,5 @@
     border: none;
     cursor: pointer;
     border: 1px solid orange;
+    color: orange;
 }

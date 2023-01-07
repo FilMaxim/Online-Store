@@ -26,8 +26,7 @@ div.promo {
 }
 .promo__head-text span{
     font-size: 30px;
-    color: orange;
-
+    color: var(--btn-bg-color);
 }
 .promo__count {
   

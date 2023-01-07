@@ -183,6 +183,7 @@ class CartPage extends Page {
             if (c[0] === 0) {
                 this.container.textContent = '';
                 this.container.append(this.createNullCart());
+                localStorage.removeItem('cart');
                 return;
             }
         if (!elem?.childNodes.length) {
@@ -205,8 +206,6 @@ class CartPage extends Page {
     }
 
     render() {
-        const title = this.createHeaderTitle(CartPage.TextObject.MainTitle);
-        this.container.append(title);
         this.container.addEventListener('click', this.clickPlusMinus.bind(this));
         if (localStorage.getItem('cart')) {
             this.container.append(this.createCartPage());
