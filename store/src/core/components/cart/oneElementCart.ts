@@ -3,9 +3,11 @@ import { Product } from '../../../types/index';
 import { TypeCart } from '../../../types/index';
 export default class ElementCart extends Component {
     cart: Product;
+    itemInfo: HTMLAnchorElement;
     constructor(tagName: string, className: string, cart: Product) {
         super(tagName, className);
         this.cart = cart;
+        this.itemInfo = document.createElement('a');
     }
     createElementCartPage() {
         const data2 = JSON.parse(String(localStorage.getItem('cart')));
@@ -16,8 +18,7 @@ export default class ElementCart extends Component {
         const itemI = document.createElement('div');
         itemI.classList.add('item-i');
         itemI.textContent = String(this.cart.num);
-        const itemInfo = document.createElement('div');
-        itemInfo.classList.add('item-info');
+        this.itemInfo.classList.add('item-info');
 
         const imgCart = document.createElement('img');
         imgCart.src = this.cart.images[0];
@@ -47,8 +48,8 @@ export default class ElementCart extends Component {
         itemDetailP.append(productDescription);
         itemDetailP.append(productOther);
 
-        itemInfo.append(imgCart);
-        itemInfo.append(itemDetailP);
+        this.itemInfo.append(imgCart);
+        this.itemInfo.append(itemDetailP);
 
         const numberControl = document.createElement('div');
         numberControl.classList.add('number-control');
@@ -83,7 +84,7 @@ export default class ElementCart extends Component {
         numberControl.append(amountControl);
 
         cartItemWrap.append(itemI);
-        cartItemWrap.append(itemInfo);
+        cartItemWrap.append(this.itemInfo);
         cartItemWrap.append(numberControl);
 
         // слушатели клики по кол-ву товара
@@ -117,9 +118,13 @@ export default class ElementCart extends Component {
 
         return cartItemWrap;
     }
+    clickItemInfo() {
+        window.location.hash = `id=${this.cart.id}`;
+    }
 
     render() {
         const cart = this.createElementCartPage();
+        this.itemInfo.addEventListener('click', this.clickItemInfo.bind(this));
         this.container.append(cart);
         return this.container;
     }

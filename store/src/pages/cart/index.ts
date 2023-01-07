@@ -44,8 +44,10 @@ class CartPage extends Page {
         inputCart.type = 'number';
         inputCart.min = '1';
         inputCart.max = '6';
-        if (localStorage.getItem('limit')) {
-            inputCart.value = String(localStorage.getItem('limit'));
+        const url = new URL(window.location.href.replace('#', ''));
+        const urlLimit = url.searchParams.get('limit');
+        if (urlLimit) {
+            inputCart.value = urlLimit;
         } else {
             inputCart.value = '6';
         }
@@ -119,8 +121,9 @@ class CartPage extends Page {
                 page = maxPage;
                 spanNumber.innerHTML = String(page);
             }
-            localStorage.setItem('limit', inputCart.value);
-            inputCart.value = String(localStorage.getItem('limit'));
+            const url = new URL(window.location.href.replace('#', ''));
+            url.searchParams.set('limit', inputCart.value);
+            window.location.hash = url.pathname.slice(1) + url.search;
             renderCart(page);
         });
 

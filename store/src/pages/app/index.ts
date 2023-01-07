@@ -42,7 +42,7 @@ class App {
 
         if (idPage === PageIds.MainPage || App.checkHash(idPage)) {
             page = new MainPage(idPage);
-        } else if (idPage === PageIds.CartPage) {
+        } else if (idPage === PageIds.CartPage || idPage.split('?')[0] === PageIds.CartPage) {
             page = new CartPage(idPage);
         } else if (idPage.includes('id=')) {
             page = new DescriptionPage(idPage.replace('id=', ''));
