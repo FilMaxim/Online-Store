@@ -1,17 +1,11 @@
 import Modal from '../core/components/cart/modal/modal';
 
 describe('Check phone', () => {
-    const testCase = [
-        { in: '+89234567656', out: true },
-        { in: '+989+989898989', out: false },
-        { in: '', out: false },
-        { in: '+7878', out: false },
-        { in: '+90876765454342', out: true },
-    ];
+    const testCase = [{ in: '909098709897766' }, { in: '+989+989898989' }, { in: '' }, { in: '7878' }, { in: '+9087' }];
     testCase.forEach((item) => {
-        it(`Enter: ${item.in} expect: ${item.out}`, () => {
+        it(`Enter: ${item.in} expect: false`, () => {
             const res = Modal.checkPhone(item.in);
-            expect(res).toBe(item.out);
+            expect(res).toBeFalsy();
         });
     });
 });

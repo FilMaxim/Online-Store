@@ -139,7 +139,6 @@ class CartPage extends Page {
                 spanNumber.innerHTML = String(page);
             }
             prodItems.innerHTML = '';
-            console.log('12', arrCarts);
 
             arrCarts[page - 1].forEach((el) => {
                 const cartElement = new OneElementCart('div', 'cart-items', el);
@@ -176,7 +175,6 @@ class CartPage extends Page {
         if (!target.matches('.btn-control')) return;
         const c = CartInfo.changeLocal();
         this.promokod.changeInfo();
-        console.log(this.container);
         const elem = this.container.querySelector('.prod-items');
 
         if (c)

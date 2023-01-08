@@ -54,7 +54,7 @@ export default class Modal extends Component {
     nameChange() {
         this.nameCheck = false;
 
-        if (Modal.checkName(this.name.value)) {
+        if (!Modal.checkName(this.name.value)) {
             if (this.name.nextElementSibling) this.name.nextElementSibling.textContent = 'Error';
             return false;
         } else {
@@ -95,7 +95,7 @@ export default class Modal extends Component {
     addressChange() {
         this.addressCheck = false;
 
-        if (Modal.checkAdress(this.address.value)) {
+        if (!Modal.checkAdress(this.address.value)) {
             if (this.address.nextElementSibling) this.address.nextElementSibling.textContent = 'Error';
             return false;
         } else {
@@ -192,7 +192,7 @@ export default class Modal extends Component {
     }
     cvvChange() {
         this.cvvCheck = false;
-        if (Modal.checkCVV(this.cvv.value)) {
+        if (!Modal.checkCVV(this.cvv.value)) {
             this.error3.textContent = 'Card CVV - error';
             return false;
         } else {
