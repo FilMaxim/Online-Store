@@ -50,6 +50,7 @@ class CartPage extends Page {
         inputCart.max = '6';
         const url = new URL(window.location.href.replace('#', ''));
         const urlLimit = url.searchParams.get('limit');
+
         if (urlLimit) {
             inputCart.value = urlLimit;
         } else {
@@ -127,7 +128,7 @@ class CartPage extends Page {
             }
             const url = new URL(window.location.href.replace('#', ''));
             url.searchParams.set('limit', inputCart.value);
-            window.location.hash = url.pathname.slice(1) + url.search;
+            window.location.hash = 'cart-page' + url.search;
             renderCart(page);
         });
 
