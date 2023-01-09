@@ -5,6 +5,7 @@ import Promokod from '../../core/components/cart/promokod/promokod';
 import * as objProducts from '../main/products.json';
 import { TypeCart } from '../../types/index';
 import { Product } from '../../types/index';
+import { FunctionalType } from '../../types/index';
 import CartInfo from '../../core/components/header/cart';
 
 class CartPage extends Page {
@@ -12,10 +13,14 @@ class CartPage extends Page {
         MainTitle: 'Страница корзины товаров',
     };
     promokod: Promokod;
+    maxPage: number;
+    promoEl: HTMLElement;
 
     constructor(id: string) {
         super(id);
         this.promokod = new Promokod('div', 'total-cart promo');
+        this.promoEl = this.promokod.render();
+        this.maxPage = 0;
     }
 
     createCartPage() {
@@ -43,8 +48,10 @@ class CartPage extends Page {
         inputCart.type = 'number';
         inputCart.min = '1';
         inputCart.max = '6';
-        if (localStorage.getItem('limit')) {
-            inputCart.value = String(localStorage.getItem('limit'));
+        const url = new URL(window.location.href.replace('#', ''));
+        const urlLimit = url.searchParams.get('limit');
+        if (urlLimit) {
+            inputCart.value = urlLimit;
         } else {
             inputCart.value = '6';
         }
@@ -85,7 +92,7 @@ class CartPage extends Page {
         productInCart.append(prodItems);
 
         cartWrapper.append(productInCart);
-        cartWrapper.append(this.promokod.render());
+        cartWrapper.append(this.promoEl);
         cartPage.append(cartWrapper);
         main.append(cartPage);
 
@@ -118,24 +125,27 @@ class CartPage extends Page {
                 page = maxPage;
                 spanNumber.innerHTML = String(page);
             }
-            localStorage.setItem('limit', inputCart.value);
-            inputCart.value = String(localStorage.getItem('limit'));
+            const url = new URL(window.location.href.replace('#', ''));
+            url.searchParams.set('limit', inputCart.value);
+            window.location.hash = url.pathname.slice(1) + url.search;
             renderCart(page);
         });
 
         //Функция которая рендерит карточки товара
-        function renderCart(page: number) {
+        const renderCart: FunctionalType = function (page: number) {
             const arrCarts = get2dimensional(arrCart, Number(inputCart.value));
             if (page > maxPage) {
                 page = maxPage;
                 spanNumber.innerHTML = String(page);
             }
             prodItems.innerHTML = '';
+
             arrCarts[page - 1].forEach((el) => {
                 const cartElement = new OneElementCart('div', 'cart-items', el);
                 prodItems.append(cartElement.render());
             });
-        }
+            return null;
+        };
         renderCart(page);
 
         // слушатели клики переход по страницам
@@ -165,13 +175,19 @@ class CartPage extends Page {
         if (!target.matches('.btn-control')) return;
         const c = CartInfo.changeLocal();
         this.promokod.changeInfo();
+        const elem = this.container.querySelector('.prod-items');
+
         if (c)
             if (c[0] === 0) {
-                console.log(12);
-
                 this.container.textContent = '';
                 this.container.append(this.createNullCart());
+                localStorage.removeItem('cart');
+                return;
             }
+        if (!elem?.childNodes.length) {
+            this.container.textContent = '';
+            this.container.append(this.createCartPage());
+        }
     }
 
     createNullCart() {
@@ -188,8 +204,6 @@ class CartPage extends Page {
     }
 
     render() {
-        const title = this.createHeaderTitle(CartPage.TextObject.MainTitle);
-        this.container.append(title);
         this.container.addEventListener('click', this.clickPlusMinus.bind(this));
         if (localStorage.getItem('cart')) {
             this.container.append(this.createCartPage());

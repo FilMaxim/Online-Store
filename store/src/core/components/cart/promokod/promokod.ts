@@ -190,28 +190,6 @@ export default class Promokod extends Component {
         this.buyBtn.className = 'promo__btn btn';
         this.buyBtn.textContent = 'BUY NOW';
         this.container.append(this.buyBtn);
-
-        // this.container.innerHTML = `
-        // <h2 class="promo__title">Summary</h2>
-        // <div class="promo__count promo__head-text">Products ${this.count.textContent}</div>
-        // <div class="promo__total promo__head-text delete">Total ${this.total.textContent}</div>
-        // <div class="promo__discount promo__head-text">Total €${this.discount.textContent}</div>
-        // < class="promo__cods cods">
-        //   <div class="cods__title">Applied codes</div>
-        //   <div class="cods__item">
-        //     <span class="cods__text">Rolling Scopes School - 10% -</span>
-        //     <button class="btn">Drop</button>
-        //   </div>
-        //   <div class="cods__item">
-        //     <span class="cods__text">Rolling Scopes School - 10% -</span>
-        //     <button class="btn promo__drop">Drop</button>
-        //   </div>
-
-        // </>
-        // <indivput type="text" class="promo__input" placeholder="Enter promo code">
-        // <span class="promo__help">Promo for test: 'RS', 'EPM'</span>
-        // <div class='promo__desc'><span>EPAM Systems - 10%</span><button class='btn promo__add'>Add</div>
-        // <button class="promo__btn btn">BUY NOW</button>`;
     }
     openModal() {
         this.container.append(new Modal('div', 'modal').render());

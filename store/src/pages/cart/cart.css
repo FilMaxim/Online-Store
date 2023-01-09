@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     height: fit-content;
-    color: orange;
+    color: var(--btn-bg-color);;
 }
 
 .cart-wrapper {
@@ -111,6 +111,7 @@
     border: 1px solid orange;
     border-radius: 5rem;
     background-color: #181a1c;
+    color: orange;
 }
 
 .item-info {
@@ -200,6 +201,7 @@
 }
 
 .btn-control {
+    user-select: none;
     width: 2rem;
     height: 2rem;
     background-color: #181a1c;
@@ -211,4 +213,5 @@
     border: none;
     cursor: pointer;
     border: 1px solid orange;
+    color: orange;
 }

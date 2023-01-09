@@ -23,7 +23,6 @@ export default class Filter extends Component {
                 categoryCount['brand'][indexBrand][key]++;
             }
         });
-
         return categoryCount;
     }
     //считает кол-во товаров по каждому пункту фильтров

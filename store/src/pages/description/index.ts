@@ -32,10 +32,7 @@ class DescriptionPage extends Page {
     createDetailsPage() {
         const idEl = Number(this.container.id);
         this.idEl = idEl;
-        console.log(idEl);
-
         const objElement: Product = objProducts.products.filter((el) => el.id === idEl)[0];
-        console.log(objElement);
 
         const main = document.createElement('main');
         main.classList.add('details');
@@ -72,15 +69,12 @@ class DescriptionPage extends Page {
         productPhotos.classList.add('product-photos');
         const slider = document.createElement('div');
         slider.classList.add('slider');
-        let mainFoto = objElement.images[0];
         objElement.images.forEach((el) => {
             const img = document.createElement('img');
             img.classList.add('img-slide');
             img.src = el;
             img.alt = 'Slide';
             img.addEventListener('click', () => {
-                mainFoto = el;
-                console.log(mainFoto);
                 imgGrand.src = el;
             });
             slider.append(img);
@@ -139,8 +133,6 @@ class DescriptionPage extends Page {
     }
 
     render() {
-        const title = this.createHeaderTitle(DescriptionPage.TextObject.MainTitle);
-        this.container.append(title);
         this.btnOpenCart.addEventListener('click', this.openCart.bind(this));
         this.container.append(this.createDetailsPage());
         return this.container;

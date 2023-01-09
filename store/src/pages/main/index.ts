@@ -1,4 +1,3 @@
-import './main.css';
 import Page from '../../core/templates/page';
 import Card from '../../core/components/main/card';
 import Filter from '../../core/components/main/filter';
@@ -172,9 +171,6 @@ class MainPage extends Page {
     }
 
     render() {
-        const title = this.createHeaderTitle(MainPage.TextObject.MainTitle);
-        this.container.append(title);
-
         this.container.append(this.createMainPage());
 
         return this.container;
